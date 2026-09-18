@@ -1,0 +1,49 @@
+---
+import { profile } from '../data/profile';
+import { links } from '../data/links';
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__copy">© 2026 {profile.name} · {profile.location}</p>
+    <nav class="footer__links" aria-label="Enlaces del pie">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            rel={l.external ? 'me noopener' : undefined}
+            target={l.external ? '_blank' : undefined}
+            data-umami-event={`${l.event}-footer`}
+          >
+            {l.short ?? l.label}
+          </a>
+        ))
+      }
+      <a href="/martin-malgor.vcf" download data-umami-event="download-vcard-footer">Guardar contacto</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--surface-alt);
+    border-top: 1px solid var(--hairline);
+    padding-block: 28px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 32px;
+  }
+  .footer__links { display: flex; flex-wrap: wrap; gap: 6px 22px; }
+  .footer__links a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color var(--fast) var(--ease);
+  }
+  .footer__links a:hover { color: var(--color-electric); }
+</style>

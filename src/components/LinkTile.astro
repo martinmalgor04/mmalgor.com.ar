@@ -1,0 +1,161 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { LinkItem } from '../data/links';
+
+/**
+ * Tile gris elevado sobre negro (estilo tarjeta de apple.com en modo oscuro):
+ * ícono arriba a la izquierda, título + sub, flecha abajo a la derecha.
+ * kind=primary: azul eléctrico sólido con resplandor propio (el CTA principal).
+ * Si `copy` está, aparece un botón que copia el valor al portapapeles.
+ */
+type Props = LinkItem;
+const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
+---
+
+<div class:list={['tile-wrap', `tile-wrap--${kind}`]}>
+  <a
+    class:list={['tile', `tile--${kind}`]}
+    href={href}
+    rel={external ? 'me noopener' : undefined}
+    target={external ? '_blank' : undefined}
+    data-umami-event={event}
+  >
+    <span class="tile__icon" aria-hidden="true"><Icon name={icon} size={22} /></span>
+    <span class="tile__text">
+      <span class="tile__label">{label}</span>
+      {sub && <span class="tile__sub">{sub}</span>}
+    </span>
+    <span class="tile__arrow" aria-hidden="true"><Icon name="lucide:arrow-up-right" size={20} /></span>
+  </a>
+
+  {
+    copy && (
+      <button class="tile__copy" type="button" data-copy={copy} aria-label={`Copiar ${copy}`}>
+        <span class="tile__copy-icon" aria-hidden="true"><Icon name="lucide:copy" size={16} /></span>
+        <span class="tile__copied" aria-live="polite">Copiado</span>
+      </button>
+    )
+  }
+</div>
+
+<style>
+  .tile-wrap { position: relative; }
+
+  .tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 22px;
+    min-height: 168px;
+    padding: 22px;
+    border-radius: var(--radius-tile);
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    color: var(--text);
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition:
+      transform var(--base) var(--ease),
+      box-shadow var(--base) var(--ease),
+      border-color var(--base) var(--ease),
+      background var(--base) var(--ease);
+  }
+  .tile:hover {
+    transform: translateY(-3px);
+    border-color: rgba(162, 198, 212, 0.3);
+    box-shadow: var(--shadow-md);
+  }
+  .tile:active { transform: translateY(-1px); }
+
+  .tile__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    display: grid;
+    place-items: center;
+    background: var(--surface-alt);
+    color: var(--color-electric);
+  }
+
+  .tile__text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding-right: 32px;
+  }
+  .tile__label {
+    font-weight: 600;
+    font-size: 19px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+  .tile__sub {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--muted);
+    letter-spacing: -0.005em;
+  }
+
+  .tile__arrow {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: var(--faint);
+    transition: color var(--fast) var(--ease), transform var(--base) var(--ease);
+  }
+  .tile:hover .tile__arrow {
+    color: var(--color-electric);
+    transform: translate(2px, -2px);
+  }
+
+  /* --- primary: resplandor propio, el "destello" de la marca --- */
+  .tile--primary {
+    background: linear-gradient(160deg, var(--color-electric-hover), var(--color-electric) 60%, #1c86e0);
+    border-color: rgba(255, 255, 255, 0.18);
+    color: var(--color-white);
+    box-shadow: var(--shadow-md), var(--glow-electric);
+  }
+  .tile--primary:hover { box-shadow: var(--shadow-lg), 0 0 90px rgba(33, 150, 243, 0.5); }
+  .tile--primary .tile__icon { background: rgba(255, 255, 255, 0.18); color: var(--color-white); }
+  .tile--primary .tile__sub { color: rgba(255, 255, 255, 0.7); }
+  .tile--primary .tile__arrow { color: rgba(255, 255, 255, 0.6); }
+  .tile--primary:hover .tile__arrow { color: var(--color-white); }
+
+  /* --- copiar --- */
+  .tile__copy {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--faint);
+    cursor: pointer;
+    transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+  }
+  .tile__copy:hover { background: var(--surface-alt); color: var(--text); }
+  .tile__copied {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(0, -50%) translateY(4px);
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: var(--color-white);
+    color: var(--color-black);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--fast) var(--ease), transform var(--fast) var(--ease);
+  }
+  .tile__copy.is-copied .tile__copied { opacity: 1; transform: translate(0, -50%); }
+  .tile__copy.is-copied .tile__copy-icon { opacity: 0; }
+</style>

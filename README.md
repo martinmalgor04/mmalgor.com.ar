@@ -2,51 +2,88 @@
 
 Sitio personal de **Martín Malgor**, director de Servicios & Sistemas (SyS).
 
-One-page estático: HTML + CSS + un archivo de JS sin dependencias. Sin build step, sin
-framework, sin `node_modules`. El sitio es contenido, no una app.
+Linktree híbrido con estética Apple: la primera pantalla es avatar + nombre + cuatro
+botones de link (WhatsApp, LinkedIn, Email, SyS); al scrollear siguen las secciones
+resumidas (qué hago, quién soy, cómo pienso, SyS, contacto).
+
+Stack: **Astro 7** (salida estática) + **Tailwind 4** (solo tokens de marca) + **astro-icon**.
+Cero React. JS propio en el cliente < 3 KB. Deploy en GitHub Pages vía Actions.
+
+---
+
+## Desarrollo
+
+```bash
+pnpm install
+pnpm dev          # http://localhost:4321
+pnpm build        # genera dist/
+pnpm preview
+pnpm check        # astro check (tipos)
+```
+
+Hay un `.claude/launch.json` con la configuración `mmalgor-astro`.
 
 ---
 
 ## Estructura
 
 ```
-index.html          Toda la página (nav, hero, qué hago, quién soy, cómo pienso, SyS, contacto, footer)
-styles.css          Sistema visual completo (tokens en :root)
-main.js             Menú mobile · scroll reveal · contador de stats
-assets/
-  logo-sys-horizontal-color.png   Logo oficial SyS (no modificar ni recolorizar)
-  og-image.png                    1200×630, generada desde build/og-image.html
-  favicon.svg · favicon-32.png · apple-touch-icon.png
-build/
-  og-image.html     Fuente de la OG image (no se publica)
-  icon.html         Fuente de los iconos PNG (no se publica)
-CNAME               Dominio custom para GitHub Pages
-_headers            Headers de seguridad y cache (sólo los toma Cloudflare Pages)
-robots.txt · sitemap.xml
+astro.config.mjs        site, fuentes (Montserrat self-hosted), CSP, sitemap, iconos
+src/
+  data/profile.ts       datos de Martín: única fuente para hero, JSON-LD, vCard y footer
+  data/links.ts         los 4 botones del linktree (orden, ícono, evento de Umami)
+  data/sections.ts      copy de las secciones inferiores
+  layouts/Base.astro    head, OG, JSON-LD ProfilePage, Umami, fondo, header sticky, footer
+  pages/index.astro     la página
+  pages/martin-malgor.vcf.ts   vCard 4.0 generada en build
+  pages/robots.txt.ts
+  components/           Topbar · Background · StickyHeader · Avatar · LinkCard · LinkButton
+                        Stats · ScrollCue · Section · Card · Footer
+  scripts/ui.ts         reveal, header sticky, spotlight, copiar email
+  styles/global.css     tokens (@theme), CTAs, reveal, reduced-motion
+  assets/               foto del avatar (cuando exista)
+public/                 CNAME, favicons, og.png, logo SyS
+build/og-image.html     fuente de la OG image (no se publica)
+scripts/og.mjs          genera public/og.png con Chrome (pnpm og)
+.github/workflows/deploy.yml   build → Lighthouse CI → deploy
+lighthouserc.json       umbrales: perf ≥ 0.95, a11y ≥ 0.95, LCP ≤ 2.5 s, CLS ≤ 0.1
 ```
 
 ---
 
-## Desarrollo local
+## Datos y contenido
 
-Cualquier servidor estático sirve:
-
-```bash
-python3 -m http.server 4321
-```
-
-Y abrir http://localhost:4321. Hay un `.claude/launch.json` con esa misma configuración.
+- **Todo lo de Martín** (nombre, bio, teléfonos, links, stats) vive en `src/data/profile.ts`.
+- **Los botones** están en `src/data/links.ts`. Cada uno lleva `event` (nombre en Umami).
+- **Foto del avatar:** guardarla como `src/assets/martin-malgor.jpg` (cuadrada, mínimo 512 px).
+  El sitio la detecta solo; sin archivo muestra el monograma "MM".
 
 ---
 
-## Deploy
+## Analytics (Umami Cloud)
 
-### GitHub Pages (configurado)
+Sin cookies, sin banner. Cada botón dispara `data-umami-event` (`click-whatsapp`, `click-linkedin`…).
 
-El repo publica la rama `main` desde la raíz. El archivo `CNAME` fija el dominio
-`mmalgor.com.ar`. Cada push a `main` redeploya solo.
+1. Crear cuenta Hobby en https://cloud.umami.is y agregar el sitio `mmalgor.com.ar`.
+2. Copiar el **Website ID**.
+3. Local: `.env` con `PUBLIC_UMAMI_ID=...` (ver `.env.example`).
+4. GitHub: *Settings → Secrets and variables → Actions → Variables* → `PUBLIC_UMAMI_ID`.
 
-**DNS a cargar en NIC Argentina (o en el proveedor de DNS del dominio):**
+Sin la variable el sitio no carga el script.
+
+---
+
+## Deploy (GitHub Pages por Actions)
+
+Cada push a `main` corre `deploy.yml`: build → Lighthouse CI (falla si no cumple umbrales) → deploy.
+
+Configuración única en GitHub:
+
+1. *Settings → Pages → Source*: **GitHub Actions**.
+2. *Settings → Pages → Custom domain*: `mmalgor.com.ar` (el `public/CNAME` ya lo fija en el output).
+3. Cuando el DNS propague, marcar **Enforce HTTPS**.
+
+DNS en el proveedor del dominio:
 
 | Tipo | Nombre | Valor |
 |---|---|---|
@@ -54,57 +91,38 @@ El repo publica la rama `main` desde la raíz. El archivo `CNAME` fija el domini
 | A | `@` | `185.199.109.153` |
 | A | `@` | `185.199.110.153` |
 | A | `@` | `185.199.111.153` |
+| AAAA | `@` | `2606:50c0:8000::153` |
+| AAAA | `@` | `2606:50c0:8001::153` |
+| AAAA | `@` | `2606:50c0:8002::153` |
+| AAAA | `@` | `2606:50c0:8003::153` |
 | CNAME | `www` | `martinmalgor04.github.io` |
 
-Cuando el DNS propague (hasta 24 h), en *Settings → Pages* del repo marcar
-**Enforce HTTPS**. GitHub emite el certificado solo. `www.mmalgor.com.ar` redirige al apex.
-
-### Cloudflare Pages (alternativa)
-
-Build command vacío, output directory `/`. El archivo `_headers` queda tomado
-automáticamente. Agregar `mmalgor.com.ar` como custom domain y una regla de redirect
-`www.mmalgor.com.ar/* → https://mmalgor.com.ar/$1` (301).
+GitHub Pages no admite headers HTTP: la CSP va como `<meta>` con hashes (`security.csp` en
+`astro.config.mjs`). HSTS y `frame-ancestors` no se pueden emular; si algún día hacen falta,
+poner Cloudflare como proxy.
 
 ---
 
-## Regenerar imágenes
-
-La OG image y los iconos se renderizan con Chrome headless desde el HTML de `build/`:
+## OG image
 
 ```bash
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=1200,630 --virtual-time-budget=6000 --screenshot=assets/og-image.png "file://$PWD/build/og-image.html"
+pnpm og
 ```
 
-```bash
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu --hide-scrollbars --force-device-scale-factor=1 --window-size=512,512 --virtual-time-budget=2000 --screenshot=/tmp/icon-512.png "file://$PWD/build/icon.html" && cp /tmp/icon-512.png assets/apple-touch-icon.png && sips -z 180 180 assets/apple-touch-icon.png && cp /tmp/icon-512.png assets/favicon-32.png && sips -z 32 32 assets/favicon-32.png
-```
+Renderiza `build/og-image.html` con el Chrome instalado y escribe `public/og.png` (1200×630).
 
 ---
 
 ## Sistema visual
 
-Hereda el sistema corporate tech premium de SyS. Los tokens viven en `:root` de
-`styles.css`. Reglas que no se negocian:
+Hereda el corporate tech premium de SyS con lenguaje Apple. Reglas que no se negocian:
 
-- **Tipografía:** sólo Montserrat (300/400/600/700/800), `font-display: swap`.
-- **Azul eléctrico `#2196F3`:** sólo en CTAs, borde superior de 6px, eyebrows, palabras
-  destacadas (`.highlight`) y números grandes (stats, facetas).
-- **Celeste `#A2C6D4`:** sólo en los círculos concéntricos del hero y en los labels de contacto.
-- **Ningún otro hue.** Toda la jerarquía se resuelve con tipografía, superficie y espacio.
-- **Logo de SyS:** sin deformar, sin recolorizar, con su área de protección.
+- **Paleta:** navy `#0A1929` (fondo), navy-mid `#102A43` (superficies), blanco, celeste `#A2C6D4`
+  (halo, anillo del avatar, texto secundario), eléctrico `#2196F3` (solo lo tocable: topbar,
+  CTA WhatsApp, eyebrows, focus). `@theme` borra la paleta default de Tailwind: ningún otro hue compila.
+- **Tipografía:** solo Montserrat (400/600/700/800), self-hosted por la Fonts API de Astro.
+- **Materiales:** glass (blanco 6 % + blur 8 px) solo en los botones del hero y el header sticky.
+  Todo lo de abajo es superficie opaca con hairlines de 1 px.
+- **Motion:** 200-400 ms, `cubic-bezier(0.33, 1, 0.68, 1)`, solo opacity y transform.
+  Si la animación se nota sola, está mal. Todo se apaga con `prefers-reduced-motion`.
 - **Voz:** primera persona singular, voseo rioplatense. SyS siempre en tercera persona.
-- **Motion:** si la animación se nota sola, está mal. Todo respeta `prefers-reduced-motion`.
-
----
-
-## Pendientes opcionales
-
-- **Foto profesional.** El hero funciona sólo con tipografía. Si aparece una foto: guardarla
-  como `assets/martin-malgor.webp` (+ `.jpg`), agregar la clase `hero--con-foto` a la
-  `<section class="hero">` y descomentar el bloque `<figure class="hero__foto">` que ya está
-  en `index.html`. El CSS del layout con foto ya existe.
-- **Trayectoria con fechas.** La sección "Quién soy" reemplaza a la timeline del diseño
-  original porque no había hitos con año confirmados. Si se quieren agregar (ingreso a SyS,
-  dirección, inicio en la UTN), va como lista cronológica dentro de esa misma sección.
-- **Escritos / LinkedIn.** Grid de posts destacados, entre "SyS" y "Contacto". Sin datos
-  reales serían cards vacías, así que quedó afuera.

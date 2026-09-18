@@ -1,0 +1,120 @@
+---
+import '../styles/global.css';
+import { profile } from '../data/profile';
+import StickyHeader from '../components/StickyHeader.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = profile.seo.title, description = profile.seo.description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
+const umamiId = import.meta.env.PUBLIC_UMAMI_ID as string | undefined;
+const a = profile.sys.address;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  '@id': `${Astro.site}#profile`,
+  url: String(Astro.site),
+  name: title,
+  description,
+  inLanguage: 'es-AR',
+  mainEntity: {
+    '@type': 'Person',
+    '@id': `${Astro.site}#martin-malgor`,
+    name: profile.name,
+    givenName: profile.givenName,
+    familyName: profile.familyName,
+    jobTitle: profile.jobTitle,
+    description,
+    url: String(Astro.site),
+    email: profile.email,
+    telephone: profile.whatsapp.tel,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: a.city,
+      addressRegion: a.region,
+      addressCountry: a.country,
+    },
+    worksFor: {
+      '@type': 'Organization',
+      name: profile.sys.legal,
+      alternateName: profile.sys.short,
+      url: profile.sys.url,
+      telephone: profile.sys.phone,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: a.street,
+        addressLocality: a.city,
+        addressRegion: a.region,
+        postalCode: a.postalCode,
+        addressCountry: a.country,
+      },
+    },
+    alumniOf: { '@type': 'CollegeOrUniversity', name: profile.utn.name, url: profile.utn.url },
+    knowsAbout: profile.knowsAbout,
+    sameAs: [profile.linkedin, profile.sys.url],
+  },
+};
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#000000" />
+    <meta name="author" content={profile.name} />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={profile.seo.ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    {
+      import.meta.env.PROD && umamiId && (
+        <script is:inline defer src="https://cloud.umami.is/script.js" data-website-id={umamiId} />
+      )
+    }
+  </head>
+
+  <body>
+    <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+    <StickyHeader />
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <script src="../scripts/ui.ts"></script>
+  </body>
+</html>

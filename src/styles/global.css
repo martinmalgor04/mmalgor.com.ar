@@ -1,0 +1,216 @@
+/* ============================================================
+   mmalgor.com.ar — sistema visual
+   Apple dark mode real: negro casi puro, superficies gris
+   elevado, mucho aire, tipografía del sistema grande y blanca,
+   acento eléctrico con destello propio en los puntos clave.
+   ============================================================ */
+
+@import "tailwindcss";
+
+@theme {
+  /* Se borra la paleta default de Tailwind. */
+  --color-*: initial;
+  --color-black: #000000;
+  --color-elev-1: #1c1c1e;
+  --color-elev-2: #2c2c2e;
+  --color-white: #ffffff;
+  --color-navy: #0a1929;
+  --color-navy-mid: #102a43;
+  --color-sky: #a2c6d4;
+  --color-electric: #2196f3;
+  --color-electric-hover: #48a8f5;
+
+  --font-*: initial;
+}
+
+/* Tipografía del sistema: SF Pro en Apple, Segoe/Roboto en el resto. 0 KB. */
+@theme inline {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+}
+
+:root {
+  --ease: cubic-bezier(0.33, 1, 0.68, 1);
+  --fast: 200ms;
+  --base: 300ms;
+  --slow: 400ms;
+
+  --header-h: 48px;
+
+  --text: #f5f5f7;
+  --muted: #98989d;
+  --faint: #6e6e73;
+  --hairline: rgba(255, 255, 255, 0.09);
+
+  --surface: var(--color-elev-1);
+  --surface-hover: var(--color-elev-2);
+  --surface-alt: var(--color-elev-2);
+  --surface-band: #0b0b0e;
+  --color-ink: var(--color-black);
+
+  --shadow-sm: 0 2px 14px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-md: 0 16px 44px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --shadow-lg: 0 32px 80px rgba(0, 0, 0, 0.65);
+  --glow-electric: 0 0 60px rgba(33, 150, 243, 0.35);
+
+  --radius-tile: 22px;
+  --radius-card: 26px;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-black);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.47;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { margin: 0; }
+p { margin: 0; }
+img, svg { display: block; }
+img { max-width: 100%; height: auto; }
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--color-electric);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ------------------------------ layout ------------------------------ */
+
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 2000;
+  background: var(--color-electric);
+  color: var(--color-white);
+  font-weight: 600;
+  padding: 12px 20px;
+  text-decoration: none;
+}
+.skip-link:focus { left: 0; }
+
+/* ------------------------------ tipografía compartida ------------------------------ */
+
+.display {
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 56px);
+  line-height: 1.07;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.subhead {
+  font-size: clamp(19px, 2.2vw, 21px);
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: var(--muted);
+}
+
+.highlight {
+  color: var(--color-electric);
+  text-shadow: 0 0 34px rgba(33, 150, 243, 0.55);
+}
+
+/* ------------------------------ CTAs ------------------------------ */
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  border-radius: 980px;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+  min-height: 48px;
+  padding: 0 24px;
+  transition:
+    background var(--fast) var(--ease),
+    color var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease),
+    transform var(--fast) var(--ease);
+}
+
+.cta--primary {
+  background: var(--color-electric);
+  color: var(--color-white);
+  box-shadow: var(--glow-electric);
+}
+.cta--primary:hover { background: var(--color-electric-hover); transform: translateY(-1px); box-shadow: 0 0 80px rgba(33, 150, 243, 0.5); }
+
+.cta--secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--hairline);
+}
+.cta--secondary:hover { background: var(--surface-hover); }
+
+.cta--link {
+  min-height: 0;
+  padding: 0;
+  border-radius: 4px;
+  color: var(--color-electric);
+  font-size: 17px;
+}
+.cta--link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.cta--link svg { transition: transform var(--fast) var(--ease); }
+.cta--link:hover svg { transform: translateX(2px); }
+
+/* ------------------------------ entrada del hero (CSS puro) ------------------------------ */
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+[data-rise] {
+  animation: rise 600ms var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+
+/* ------------------------------ scroll reveal (IntersectionObserver) ------------------------------ */
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--slow) var(--ease),
+    transform var(--slow) var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------ motion reducida ------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .js [data-reveal] { opacity: 1; transform: none; }
+}

@@ -1,0 +1,74 @@
+---
+import { Icon } from 'astro-icon/components';
+import { profile } from '../data/profile';
+import { links } from '../data/links';
+
+/** Barra de navegación estilo apple.com en modo oscuro: negra translúcida, aparece al pasar el hero. */
+---
+
+<header class="sh" id="sticky-header" aria-label="Accesos rápidos">
+  <div class="container sh__inner">
+    <a class="sh__brand" href="#inicio">{profile.name}</a>
+    <nav class="sh__links" aria-label="Redes y contacto">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            rel={l.external ? 'me noopener' : undefined}
+            target={l.external ? '_blank' : undefined}
+            aria-label={l.label}
+            title={l.label}
+            data-umami-event={`${l.event}-header`}
+          >
+            <Icon name={l.icon} size={17} />
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .sh {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--header-h);
+    background: rgba(0, 0, 0, 0.7);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--hairline);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform var(--base) var(--ease), opacity var(--base) var(--ease);
+  }
+  .sh.is-visible { transform: none; opacity: 1; }
+
+  .sh__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .sh__brand {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .sh__links { display: flex; gap: 2px; }
+  .sh__links a {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    color: var(--muted);
+    transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+  }
+  .sh__links a:hover { background: var(--surface-alt); color: var(--text); }
+</style>

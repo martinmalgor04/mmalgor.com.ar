@@ -1,0 +1,74 @@
+---
+interface Props {
+  id: string;
+  /** Texto chico gris arriba del título (estilo "subhead" de Apple). */
+  kicker?: string;
+  title?: string;
+  tone?: 'white' | 'gray' | 'navy';
+  center?: boolean;
+  class?: string;
+}
+const { id, kicker, title, tone = 'white', center = false, class: cls } = Astro.props;
+---
+
+<section class:list={['section', `section--${tone}`, cls]} id={id} aria-labelledby={title ? `${id}-titulo` : undefined}>
+  <div class="container">
+    {
+      (kicker || title) && (
+        <header class:list={['section__head', { 'section__head--center': center }]}>
+          {kicker && <p class="section__kicker" data-reveal>{kicker}</p>}
+          {title && <h2 class="section__title" id={`${id}-titulo`} data-reveal>{title}</h2>}
+        </header>
+      )
+    }
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: clamp(72px, 10vw, 128px);
+    scroll-margin-top: var(--header-h);
+  }
+  .section--white { background: var(--color-black); }
+  .section--gray { background: var(--surface-band); }
+  .section--navy {
+    position: relative;
+    background: radial-gradient(ellipse 70% 60% at 50% 20%, #0f2238 0%, var(--color-navy) 55%, #050d16 100%);
+    color: var(--color-white);
+    overflow: hidden;
+  }
+  .section--navy::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(500px circle at 50% 0%, rgba(33, 150, 243, 0.16), transparent 70%);
+    pointer-events: none;
+  }
+
+  .section__head {
+    display: grid;
+    gap: 10px;
+    margin-bottom: clamp(36px, 5vw, 56px);
+    max-width: 720px;
+  }
+  .section__head--center {
+    text-align: center;
+    justify-items: center;
+    margin-inline: auto;
+  }
+  .section__kicker {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-electric);
+  }
+  .section__title {
+    font-weight: 700;
+    font-size: clamp(32px, 4.6vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--text);
+  }
+  .section--navy .section__title { color: var(--color-white); }
+</style>
