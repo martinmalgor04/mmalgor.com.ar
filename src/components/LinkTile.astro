@@ -12,7 +12,7 @@ type Props = LinkItem;
 const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
 ---
 
-<div class:list={['tile-wrap', `tile-wrap--${kind}`]}>
+<div class:list={['tile-wrap', `tile-wrap--${kind}`]} data-tile>
   <a
     class:list={['tile', `tile--${kind}`]}
     href={href}
@@ -25,7 +25,13 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
       <span class="tile__label">{label}</span>
       {sub && <span class="tile__sub">{sub}</span>}
     </span>
-    <span class="tile__arrow" aria-hidden="true"><Icon name="lucide:arrow-up-right" size={20} /></span>
+    {
+      !copy && (
+        <span class="tile__arrow" aria-hidden="true">
+          <Icon name="lucide:arrow-up-right" size={20} />
+        </span>
+      )
+    }
   </a>
 
   {
@@ -55,17 +61,37 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
     color: var(--text);
     text-decoration: none;
     box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    isolation: isolate;
     transition:
       transform var(--base) var(--ease),
       box-shadow var(--base) var(--ease),
       border-color var(--base) var(--ease),
       background var(--base) var(--ease);
   }
+  .tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      420px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+      rgba(255, 255, 255, 0.1),
+      transparent 42%
+    );
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity var(--base) var(--ease);
+  }
+  .tile > :not(.tile__arrow) { position: relative; z-index: 1; }
+  .tile__arrow { z-index: 1; }
   .tile:hover {
     transform: translateY(-3px);
     border-color: rgba(162, 198, 212, 0.3);
     box-shadow: var(--shadow-md);
   }
+  .tile:hover::before { opacity: 1; }
   .tile:active { transform: translateY(-1px); }
 
   .tile__icon {
@@ -111,10 +137,17 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
 
   /* --- primary: resplandor propio, el "destello" de la marca --- */
   .tile--primary {
-    background: linear-gradient(160deg, var(--color-electric-hover), var(--color-electric) 60%, #1c86e0);
+    background: linear-gradient(160deg, var(--color-electric-hover), var(--color-electric) 60%, var(--color-electric-active));
     border-color: rgba(255, 255, 255, 0.18);
     color: var(--color-white);
     box-shadow: var(--shadow-md), var(--glow-electric);
+  }
+  .tile--primary::before {
+    background: radial-gradient(
+      460px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+      rgba(255, 255, 255, 0.22),
+      transparent 44%
+    );
   }
   .tile--primary:hover { box-shadow: var(--shadow-lg), 0 0 90px rgba(33, 150, 243, 0.5); }
   .tile--primary .tile__icon { background: rgba(255, 255, 255, 0.18); color: var(--color-white); }

@@ -24,7 +24,11 @@ export default defineConfig({
         resources: ["'self'", 'https://cloud.umami.is'],
       },
       styleDirective: {
-        resources: ["'self'"],
+        resources: [
+          "'self'",
+          // GSAP y Lenis escriben transform/opacity en style="". No afloja <style> ni CSS externo.
+          { resource: "'unsafe-inline'", kind: 'attribute' },
+        ],
       },
       directives: [
         "default-src 'self'",

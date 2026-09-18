@@ -3,9 +3,10 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 /**
- * Avatar circular con un halo de luz detrás (el "destello" de marca).
- * Sin foto: monograma blanco sobre navy. Con foto: <Image> con
- * width/height fijos, el layout no se mueve.
+ * Avatar circular con un anillo de luz propio (el "destello" de marca,
+ * resuelto en el box-shadow, sin capas de blur extra detrás para no
+ * ensuciar el fondo). Sin foto: monograma blanco sobre navy. Con foto:
+ * <Image> con width/height fijos, el layout no se mueve.
  */
 interface Props {
   initials: string;
@@ -16,7 +17,6 @@ const { initials, alt, src } = Astro.props;
 ---
 
 <div class="avatar-wrap">
-  <div class="avatar__halo" aria-hidden="true"></div>
   <div class="avatar" role="img" aria-label={alt}>
     {
       src ? (
@@ -30,16 +30,8 @@ const { initials, alt, src } = Astro.props;
 
 <style>
   .avatar-wrap {
-    position: relative;
     width: 96px;
     height: 96px;
-  }
-  .avatar__halo {
-    position: absolute;
-    inset: -30px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(33, 150, 243, 0.32) 0%, rgba(162, 198, 212, 0.14) 45%, transparent 72%);
-    filter: blur(4px);
   }
   .avatar {
     position: relative;

@@ -19,6 +19,7 @@
   --color-sky: #a2c6d4;
   --color-electric: #2196f3;
   --color-electric-hover: #48a8f5;
+  --color-electric-active: #1c86e0;
 
   --font-*: initial;
 }
@@ -60,6 +61,11 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+}
+
+/* Lenis interpola el scroll; el smooth nativo se pelea y genera jank. */
+html.lenis {
+  scroll-behavior: auto;
 }
 
 body {
@@ -189,7 +195,7 @@ a { color: inherit; }
   animation-delay: calc(var(--i, 0) * 80ms);
 }
 
-/* ------------------------------ scroll reveal (IntersectionObserver) ------------------------------ */
+/* ------------------------------ scroll reveal (IntersectionObserver / GSAP) ------------------------------ */
 
 .js [data-reveal] {
   opacity: 0;
@@ -202,6 +208,11 @@ a { color: inherit; }
 .js [data-reveal].is-visible {
   opacity: 1;
   transform: none;
+}
+
+/* GSAP toma opacity/transform; la transition de CSS pelearía con el tween. */
+.js.has-gsap [data-reveal] {
+  transition: none;
 }
 
 /* ------------------------------ motion reducida ------------------------------ */
