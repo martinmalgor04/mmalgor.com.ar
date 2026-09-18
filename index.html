@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Martín Malgor — Estrategia IT para PYMES del NEA</title>
+<meta name="description" content="Director de Servicios &amp; Sistemas. Ayudo a PYMES de Corrientes, Chaco, Misiones y Formosa a que la tecnología dé resultados: ERP Tango, infraestructura, ciberseguridad e IA aplicada.">
+<link rel="canonical" href="https://mmalgor.com.ar/">
+<meta name="theme-color" content="#0A1929">
+<meta name="author" content="Martín Malgor">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Martín Malgor">
+<meta property="og:title" content="Martín Malgor — Estrategia IT para PYMES del NEA">
+<meta property="og:description" content="Director de Servicios &amp; Sistemas. Ayudo a PYMES de Corrientes, Chaco, Misiones y Formosa a que la tecnología dé resultados: ERP Tango, infraestructura, ciberseguridad e IA aplicada.">
+<meta property="og:url" content="https://mmalgor.com.ar/">
+<meta property="og:image" content="https://mmalgor.com.ar/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Martín Malgor — Traduzco tecnología a decisiones de negocio.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Martín Malgor — Estrategia IT para PYMES del NEA">
+<meta name="twitter:description" content="Director de Servicios &amp; Sistemas. Ayudo a PYMES del NEA a que la tecnología dé resultados.">
+<meta name="twitter:image" content="https://mmalgor.com.ar/assets/og-image.png">
+
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap">
+<link rel="stylesheet" href="styles.css">
+
+<!-- Habilita el estado inicial del scroll reveal sólo si hay JS -->
+<script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body>
+
+<a class="skip-link" href="#contenido">Ir al contenido</a>
+
+<!-- Firma visual: borde superior 6px azul eléctrico -->
+<div class="topbar" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="container nav__inner">
+    <a class="nav__name" href="#inicio">Martín Malgor</a>
+
+    <button class="nav__toggle" id="navToggle" type="button"
+            aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav__menu" id="navMenu" aria-label="Navegación principal">
+      <a href="#que-hago">Qué hago</a>
+      <a href="#quien-soy">Quién soy</a>
+      <a href="#sys">SyS</a>
+      <a href="#contacto">Contacto</a>
+      <a class="cta cta--primary cta--sm" href="#contacto">Hablemos</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+
+  <!-- ══════════════════════════ 1. HERO ══════════════════════════ -->
+  <section class="hero" id="inicio">
+
+    <!-- Círculos concéntricos celestes (decorativos) -->
+    <svg class="hero__rings" viewBox="0 0 900 900" aria-hidden="true" focusable="false">
+      <defs>
+        <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#A2C6D4" stop-opacity="0.10"/>
+          <stop offset="100%" stop-color="#A2C6D4" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="450" cy="450" r="440" fill="url(#glow)"/>
+      <circle cx="450" cy="450" r="200" fill="none" stroke="#A2C6D4" stroke-opacity="0.07" stroke-width="1.5"/>
+      <circle cx="450" cy="450" r="300" fill="none" stroke="#A2C6D4" stroke-opacity="0.06" stroke-width="1.5"/>
+      <circle cx="450" cy="450" r="400" fill="none" stroke="#A2C6D4" stroke-opacity="0.05" stroke-width="1.5"/>
+      <circle class="hero__ring--spin" cx="450" cy="450" r="500" fill="none"
+              stroke="#A2C6D4" stroke-opacity="0.05" stroke-width="1.5" stroke-dasharray="3 22"/>
+    </svg>
+
+    <div class="container hero__inner">
+
+      <!--
+        FOTO (opcional). Cuando haya retrato profesional de Martín:
+        1. Guardar en assets/martin-malgor.webp (y .jpg de fallback), recorte limpio, sin marco.
+        2. Agregar la clase `hero--con-foto` a <section class="hero">.
+        3. Pegar este bloque justo después de </div> del .hero__copy:
+
+        <figure class="hero__foto">
+          <picture>
+            <source srcset="assets/martin-malgor.webp" type="image/webp">
+            <img src="assets/martin-malgor.jpg" width="720" height="900"
+                 alt="Martín Malgor, director de Servicios &amp; Sistemas" fetchpriority="high">
+          </picture>
+        </figure>
+      -->
+
+      <div class="hero__copy">
+        <p class="eyebrow" data-reveal>Director de Servicios &amp; Sistemas · Corrientes, Argentina</p>
+
+        <h1 class="hero__title" data-reveal>
+          Traduzco tecnología a<br>
+          <span class="highlight">decisiones de negocio.</span>
+        </h1>
+
+        <p class="hero__sub" data-reveal>
+          Soy Martín Malgor. Dirijo SyS, la empresa que hace más de 30 años acompaña a las PYMES
+          del NEA con ERP, infraestructura y soporte. Me obsesiona una cosa: que la tecnología dé
+          resultados, no dolores de cabeza.
+        </p>
+
+        <div class="hero__ctas" data-reveal>
+          <a class="cta cta--primary cta--lg" href="#contacto">Escribime</a>
+          <a class="cta cta--ghost cta--lg" href="https://www.serviciosysistemas.com.ar"
+             target="_blank" rel="noopener">Conocé SyS <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+      <ul class="stats" role="list" data-reveal>
+        <li class="stat">
+          <span class="stat__number" data-count="1000" data-prefix="+">+1000</span>
+          <span class="stat__label">implementaciones de Tango lideradas desde SyS</span>
+        </li>
+        <li class="stat">
+          <span class="stat__number" data-count="200" data-prefix="+">+200</span>
+          <span class="stat__label">empresas del NEA acompañadas cada año</span>
+        </li>
+        <li class="stat">
+          <span class="stat__number" data-count="4">4</span>
+          <span class="stat__label">provincias del NEA donde operamos: Corrientes, Chaco, Misiones y Formosa</span>
+        </li>
+      </ul>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 2. QUÉ HAGO ══════════════════════ -->
+  <section class="section section--light" id="que-hago">
+    <div class="container">
+
+      <header class="section__head">
+        <p class="eyebrow eyebrow--dark" data-reveal>Qué hago</p>
+        <h2 class="section__title" data-reveal>En qué puedo ayudarte.</h2>
+      </header>
+
+      <div class="cards">
+
+        <article class="card" data-reveal>
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+          </svg>
+          <h3>Estrategia IT para PYMES</h3>
+          <p>Diagnóstico de qué tecnología necesita tu operación y cuál es puro gasto.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+            <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
+            <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+          </svg>
+          <h3>ERP e implementaciones</h3>
+          <p>Tango implementado como tiene que ser: procesos primero, software después.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+          <h3>Infraestructura y ciberseguridad</h3>
+          <p>Que un martes a las 11 de la noche todo siga funcionando.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="card__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="16" height="16" x="4" y="4" rx="2"/>
+            <rect width="6" height="6" x="9" y="9" rx="1"/>
+            <path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/>
+            <path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>
+          </svg>
+          <h3>Automatización e IA aplicada</h3>
+          <p>Casos reales de IA en operación de PYMES, sin humo.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 3. QUIÉN SOY ══════════════════════ -->
+  <section class="section section--offwhite" id="quien-soy">
+    <div class="container">
+
+      <header class="section__head">
+        <p class="eyebrow eyebrow--dark" data-reveal>Quién soy</p>
+        <h2 class="section__title" data-reveal>Director, builder y estudiante.</h2>
+      </header>
+
+      <div class="facetas">
+
+        <article class="faceta" data-reveal>
+          <span class="faceta__num" aria-hidden="true">01</span>
+          <h3>Director de SyS</h3>
+          <p>
+            Dirijo Servicios &amp; Sistemas, la empresa que Daniel Malgor fundó en Corrientes en 1990.
+            Segunda generación: me toca sumarle procesos, indicadores e integraciones sin romper
+            lo que hace más de 30 años funciona.
+          </p>
+        </article>
+
+        <article class="faceta" data-reveal>
+          <span class="faceta__num" aria-hidden="true">02</span>
+          <h3>Builder</h3>
+          <p>
+            No dirijo desde un escritorio: diseño y construyo sistemas. Integraciones de Mercado Libre
+            y Shopify con Tango, tableros de operación en tiempo real, asistentes con IA y
+            automatizaciones que hoy corren en producción.
+          </p>
+        </article>
+
+        <article class="faceta" data-reveal>
+          <span class="faceta__num" aria-hidden="true">03</span>
+          <h3>Estudiante</h3>
+          <p>
+            Curso Ingeniería en Sistemas de Información en la UTN, Facultad Regional Resistencia.
+            Lo que aprendo en la facultad lo pruebo en la empresa, y lo que aprendo en la empresa
+            lo llevo de vuelta al aula.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 4. CÓMO PIENSO ══════════════════════ -->
+  <section class="section section--dark manifiesto" id="como-pienso" aria-labelledby="como-pienso-titulo">
+    <div class="container">
+
+      <h2 class="sr-only" id="como-pienso-titulo">Cómo pienso</h2>
+
+      <p class="manifiesto__texto" data-reveal>
+        La tecnología sin responsables es un gasto.<br>
+        Con responsables, es la <span class="highlight">ventaja competitiva</span><br>
+        más barata que puede comprar una PYME.
+      </p>
+
+      <div class="principios">
+        <article class="principio" data-reveal>
+          <h3>Procesos antes que software.</h3>
+          <p>El ERP acelera lo que ya hay. Si el proceso es malo, lo acelera mal.</p>
+        </article>
+        <article class="principio" data-reveal>
+          <h3>Integral de verdad.</h3>
+          <p>Tecnología fragmentada = nadie es responsable cuando algo rompe.</p>
+        </article>
+        <article class="principio" data-reveal>
+          <h3>Cerca del negocio.</h3>
+          <p>Trabajo en el NEA, con empresas del NEA, en el idioma del NEA.</p>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 5. SyS ══════════════════════ -->
+  <section class="section section--light" id="sys">
+    <div class="container">
+     <div class="sys">
+
+      <p class="eyebrow eyebrow--dark" data-reveal>La empresa que dirijo</p>
+      <h2 class="section__title" data-reveal>Servicios &amp; Sistemas.</h2>
+
+      <p class="sys__copy" data-reveal>
+        Más de 30 años transformando empresas del NEA. Centro de Ventas y Servicios Certificado
+        de Tango Software, partner de HPE, Lenovo, Dell y Sophos.
+      </p>
+
+      <div class="sys__logo" data-reveal>
+        <img src="assets/logo-sys-horizontal-color.png" width="600" height="69" loading="lazy"
+             alt="Servicios &amp; Sistemas">
+      </div>
+
+      <p data-reveal>
+        <a class="cta cta--link" href="https://www.serviciosysistemas.com.ar"
+           target="_blank" rel="noopener">Conocé SyS <span aria-hidden="true">→</span></a>
+      </p>
+
+     </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════ 6. CONTACTO ══════════════════════ -->
+  <section class="section section--dark contacto" id="contacto">
+    <div class="container">
+
+      <h2 class="section__title section__title--light" data-reveal>Hablemos.</h2>
+
+      <p class="contacto__sub" data-reveal>
+        Si dirigís una PYME del NEA y la tecnología te está costando más de lo que te rinde,
+        escribime. Una llamada de 30 minutos alcanza para saber si te puedo ayudar.
+      </p>
+
+      <div class="contacto__cta" data-reveal>
+        <a class="cta cta--primary cta--lg" href="https://wa.me/5493795040635"
+           target="_blank" rel="noopener">Escribime por WhatsApp</a>
+        <a class="cta cta--ghost cta--lg" href="https://www.linkedin.com/in/martin-malgor-6b3824186/"
+           target="_blank" rel="noopener">Escribime por LinkedIn</a>
+      </div>
+
+      <ul class="contacto__links" role="list" data-reveal>
+        <li>
+          <span class="contacto__label">LinkedIn</span>
+          <a href="https://www.linkedin.com/in/martin-malgor-6b3824186/" target="_blank" rel="noopener">Martín Malgor</a>
+        </li>
+        <li>
+          <span class="contacto__label">Email</span>
+          <a href="mailto:martin@serviciosysistemas.com.ar">martin@serviciosysistemas.com.ar</a>
+        </li>
+        <li>
+          <span class="contacto__label">WhatsApp</span>
+          <a href="https://wa.me/5493795040635" target="_blank" rel="noopener">+54 9 379 504 0635</a>
+        </li>
+        <li>
+          <span class="contacto__label">Teléfono</span>
+          <a href="tel:+5493795040635">+54 9 379 504 0635</a>
+        </li>
+      </ul>
+
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ══════════════════════ FOOTER ══════════════════════ -->
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__name">Martín Malgor · Corrientes, Argentina</p>
+    <nav class="footer__links" aria-label="Enlaces del pie">
+      <a href="https://www.linkedin.com/in/martin-malgor-6b3824186/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.serviciosysistemas.com.ar" target="_blank" rel="noopener">Servicios &amp; Sistemas</a>
+    </nav>
+    <p class="footer__copy">© 2026</p>
+  </div>
+</footer>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://mmalgor.com.ar/#martin-malgor",
+  "name": "Martín Malgor",
+  "givenName": "Martín",
+  "familyName": "Malgor",
+  "jobTitle": "Director",
+  "url": "https://mmalgor.com.ar/",
+  "description": "Director de Servicios & Sistemas. Estrategia IT para PYMES del NEA: ERP Tango, infraestructura, ciberseguridad e IA aplicada.",
+  "email": "martin@serviciosysistemas.com.ar",
+  "telephone": "+54-9-379-504-0635",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Corrientes",
+    "addressRegion": "Corrientes",
+    "addressCountry": "AR"
+  },
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Servicios y Sistemas SRL",
+    "alternateName": "SyS",
+    "url": "https://www.serviciosysistemas.com.ar",
+    "telephone": "+54-3794-426022",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "San Martín 1180",
+      "addressLocality": "Corrientes",
+      "addressRegion": "Corrientes",
+      "addressCountry": "AR"
+    }
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Universidad Tecnológica Nacional, Facultad Regional Resistencia",
+    "url": "https://www.frre.utn.edu.ar/"
+  },
+  "knowsAbout": [
+    "Estrategia IT",
+    "ERP Tango",
+    "Infraestructura IT",
+    "Ciberseguridad",
+    "Automatización e inteligencia artificial aplicada"
+  ],
+  "sameAs": ["https://www.linkedin.com/in/martin-malgor-6b3824186/"]
+}
+</script>
+
+<script src="main.js" defer></script>
+</body>
+</html>
