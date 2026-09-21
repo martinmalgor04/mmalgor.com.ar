@@ -21,6 +21,7 @@ const lines = [
   `URL;TYPE=work:${profile.sys.url}`,
   `ADR;TYPE=work:;;${a.street};${a.city};${a.region};${a.postalCode};${a.country}`,
   `X-SOCIALPROFILE;TYPE=linkedin:${profile.linkedin}`,
+  `X-SOCIALPROFILE;TYPE=x:${profile.x}`,
   `X-SOCIALPROFILE;TYPE=instagram:${profile.instagram}`,
   `NOTE:${profile.identity.answer}`,
   'KIND:individual',

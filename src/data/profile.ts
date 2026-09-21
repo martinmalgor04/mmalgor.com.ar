@@ -45,6 +45,8 @@ export const profile = {
   email: 'martin@serviciosysistemas.com.ar',
   instagram: 'https://www.instagram.com/martinmmalgor/',
   instagramHandle: 'martinmmalgor',
+  x: 'https://x.com/techconmartin',
+  xHandle: 'techconmartin',
   whatsapp: {
     /** Formato wa.me: 54 + 9 + área sin 0 + número sin 15. */
     number: '5493795040635',

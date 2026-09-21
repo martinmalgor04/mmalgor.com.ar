@@ -27,7 +27,7 @@ export function abs(path = '/'): string {
   return `${SITE}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
-export const sameAs = [profile.linkedin, profile.instagram, profile.sys.url] as const;
+export const sameAs = [profile.linkedin, profile.x, profile.instagram, profile.sys.url] as const;
 
 export function canonicalPages(): { path: string; lastmod?: string }[] {
   return [
@@ -387,7 +387,8 @@ ${contacto.text}
 - WhatsApp: ${profile.whatsapp.display}
 - Email: ${profile.email}
 - LinkedIn: ${profile.linkedin}
-- Instagram: ${profile.instagram}
+- X: ${profile.x} (@${profile.xHandle})
+- Instagram: ${profile.instagram} (@${profile.instagramHandle})
 
 ## Preguntas frecuentes
 
@@ -462,6 +463,7 @@ ${noteLinks}
 - [Sitio HTML](${SITE})
 - [Servicios y Sistemas](${profile.sys.url})
 - [LinkedIn](${profile.linkedin})
+- [X](${profile.x})
 - [Instagram](${profile.instagram})
 - [Contexto largo](${abs('/llms-full.txt')}): biografía y FAQs en un solo archivo
 `;

@@ -18,7 +18,7 @@ export interface LinkItem {
   copy?: string;
 }
 
-/** Los 4 links del linktree, en orden. */
+/** Los links del linktree, en orden. */
 export const links: LinkItem[] = [
   {
     id: 'whatsapp',
@@ -39,6 +39,26 @@ export const links: LinkItem[] = [
     icon: 'tabler:brand-linkedin',
     kind: 'glass',
     event: 'click-linkedin',
+    external: true,
+  },
+  {
+    id: 'x',
+    label: 'X',
+    sub: `@${profile.xHandle}`,
+    href: profile.x,
+    icon: 'tabler:brand-x',
+    kind: 'glass',
+    event: 'click-x',
+    external: true,
+  },
+  {
+    id: 'instagram',
+    label: 'Instagram',
+    sub: `@${profile.instagramHandle}`,
+    href: profile.instagram,
+    icon: 'tabler:brand-instagram',
+    kind: 'glass',
+    event: 'click-instagram',
     external: true,
   },
   {
