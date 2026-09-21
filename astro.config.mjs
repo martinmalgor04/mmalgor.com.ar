@@ -54,7 +54,7 @@ export default defineConfig({
       },
       directives: [
         "default-src 'self'",
-        "connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev",
+        "connect-src 'self' https://cloud.umami.is https://gateway.umami.is https://api-gateway.umami.dev",
         `img-src 'self' data: https://${r2Host}`,
         `media-src 'self' https://${r2Host}`,
         "object-src 'none'",
