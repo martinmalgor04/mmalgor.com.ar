@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<title>Portada Facebook — mmalgor.com.ar</title>
+<style>
+  /* Se diseña a 820×312 (1x) y se exporta a 2x = 1640×624.
+     En celular Facebook recorta 90px de cada lado: todo el contenido vive en los 640px centrales. */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 820px; height: 312px; overflow: hidden; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #000;
+    position: relative;
+    color: #f5f5f7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .aurora {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 40% 90% at 50% -10%, rgba(33, 150, 243, 0.24) 0%, transparent 70%),
+      radial-gradient(ellipse 30% 70% at 88% 100%, rgba(162, 198, 212, 0.10) 0%, transparent 70%),
+      radial-gradient(ellipse 30% 70% at 8% 110%, rgba(0, 113, 227, 0.14) 0%, transparent 70%);
+  }
+  .hairline {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(33,150,243,0.5) 40%, rgba(162,198,212,0.35) 65%, transparent 100%);
+  }
+  .inner {
+    position: absolute; left: 90px; right: 90px; top: 0; bottom: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding-bottom: 58px; /* en celular la foto de perfil pisa el borde inferior */
+  }
+  .eyebrow {
+    font-weight: 600; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: #2196f3; margin-bottom: 12px;
+  }
+  h1 {
+    font-weight: 800; font-size: 40px; line-height: 1.06; letter-spacing: -1.2px; max-width: 600px;
+  }
+  .highlight { color: #a2c6d4; }
+  .line {
+    margin-top: 14px; font-size: 13.5px; color: #98989d; letter-spacing: -0.05px;
+    display: flex; gap: 6px 10px; align-items: center; justify-content: center; flex-wrap: wrap; max-width: 560px;
+  }
+  .line span { white-space: nowrap; }
+  .line .row { display: flex; align-items: center; gap: 10px; }
+  .line i { width: 3px; height: 3px; border-radius: 50%; background: #48484a; display: inline-block; }
+  .foot {
+    margin-top: 20px;
+    display: flex; align-items: center; justify-content: center; gap: 22px;
+  }
+  .foot img { display: block; opacity: 0.5; }
+  .foot .tango { height: 30px; opacity: 0.95; filter: drop-shadow(0 0 12px rgba(33,150,243,0.35)); }
+  .foot .utn { height: 13px; }
+  .foot .spacex { height: 6px; }
+  .foot .url { font-weight: 600; font-size: 13px; letter-spacing: 0.04em; color: #a2c6d4; margin-left: 6px; }
+</style>
+</head>
+<body>
+<div class="aurora" aria-hidden="true"></div>
+<div class="hairline" aria-hidden="true"></div>
+<div class="inner">
+  <p class="eyebrow" data-name></p>
+  <h1 data-tagline></h1>
+  <p class="line" data-parts></p>
+  <div class="foot">
+  <img class="tango" src="../public/brands/tango-elite.webp" alt="">
+  <img class="utn" src="../public/brands/utn-wordmark-white.png" alt="">
+  <img class="spacex" src="../public/brands/spacexai-wordmark-white.png" alt="">
+    <span class="url">mmalgor.com.ar</span>
+  </div>
+</div>
+</body>
+</html>
