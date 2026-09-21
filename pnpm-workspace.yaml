@@ -1,0 +1,4 @@
+# pnpm 11+ dejó de leer el campo "pnpm" de package.json y renombró
+# onlyBuiltDependencies a allowBuilds. Sin esto, CI corta con ERR_PNPM_IGNORED_BUILDS.
+allowBuilds:
+  esbuild: true
