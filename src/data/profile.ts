@@ -46,7 +46,7 @@ export const profile = {
   },
 
   marks: [
-    { title: 'Tango Elite', text: 'Técnico Certificado.' },
+    { title: 'Tango Elite', text: 'Primera certificación.' },
     { title: 'Ingeniería en Sistemas', text: 'cuarto año · UTN FRRe' },
     { title: 'SpaceX AI', text: 'Embajador voluntario en el NEA.' },
   ],

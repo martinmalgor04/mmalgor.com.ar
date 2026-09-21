@@ -47,10 +47,12 @@ jobs:
         with:
           configPath: ./lighthouserc.json
           uploadArtifacts: true
+          artifactName: lighthouse-desktop
           temporaryPublicStorage: true
       - name: Lighthouse mobile
         uses: treosh/lighthouse-ci-action@v12
         with:
           configPath: ./lighthouserc.mobile.json
           uploadArtifacts: true
+          artifactName: lighthouse-mobile
           temporaryPublicStorage: true

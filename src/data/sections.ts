@@ -50,7 +50,7 @@ export const sobreMi: { title: string; lead: string; items: Faceta[] } = {
     {
       title: 'Tango Elite',
       mark: { src: profile.tango.badge, kind: 'badge', width: 256, height: 256 },
-      text: 'Soy Técnico Certificado Tango Elite. El sello de SyS es otro: Centro de Ventas y Servicios Certificado. El mío es personal.',
+      text: 'Soy Técnico Certificado Tango Elite: es mi primera certificación de Tango. El sello de SyS es otro: Centro de Ventas y Servicios Certificado. El mío es personal.',
     },
     {
       title: 'Empresa familiar, segunda generación',
