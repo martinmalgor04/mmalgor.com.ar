@@ -9,10 +9,7 @@ import ContactCtas from '../components/ContactCtas.astro';
 import { profile, whatsappHref } from '../data/profile';
 import { queHago, sobreMi, manifiesto, sys, contacto, meetupsSection, novedades, words } from '../data/sections';
 import MeetupList from '../components/MeetupList.astro';
-import { now } from '../data/now';
-import { notes } from '../data/notes';
-
-const nota = notes[0];
+import { feed } from '../data/feed';
 ---
 
 <Base>
@@ -143,31 +140,20 @@ const nota = notes[0];
   <!-- ═══════════════════ NOVEDADES ═══════════════════ -->
   <Section id="ahora" tone="gray" kicker={novedades.eyebrow} title={novedades.title} compact>
     <div class="novedades">
-      <article class="entrada">
-        <p class="entrada__kicker">
-          Ahora · <time datetime={now.updated}>{now.updatedLabel}</time>
-        </p>
-        <h3 class="entrada__title">{now.title}</h3>
-        <p class="entrada__text">{now.excerpt}</p>
-        <a class="cta cta--link" href="/now" data-umami-event="click-now-home">
-          Qué estoy haciendo ahora
-          <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
-        </a>
-      </article>
       {
-        nota && (
+        feed.map((item) => (
           <article class="entrada">
             <p class="entrada__kicker">
-              Nota · <time datetime={nota.date}>{nota.dateLabel}</time>
+              {item.kind} · <time datetime={item.date}>{item.dateLabel}</time>
             </p>
-            <h3 class="entrada__title">{nota.title}</h3>
-            <p class="entrada__text">{nota.description}</p>
-            <a class="cta cta--link" href={`/notas/${nota.slug}`} data-umami-event="click-nota-home">
-              Leer la nota
+            <h3 class="entrada__title">{item.title}</h3>
+            <p class="entrada__text">{item.excerpt}</p>
+            <a class="cta cta--link" href={item.href} data-umami-event={item.event}>
+              {item.cta}
               <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
             </a>
           </article>
-        )
+        ))
       }
     </div>
   </Section>
@@ -454,17 +440,22 @@ const nota = notes[0];
     color: var(--muted);
   }
 
-  /* novedades */
+  /* novedades: feed, no dos columnas que se pisan */
   .novedades {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(32px, 5vw, 56px);
+    max-width: 52ch;
   }
   .entrada {
     display: grid;
     justify-items: start;
     text-align: left;
     gap: 14px;
+    padding-block: 32px;
+    border-top: 1px solid var(--hairline);
+  }
+  .entrada:first-child {
+    padding-top: 0;
+    border-top: 0;
   }
   .entrada__kicker {
     font-size: 15px;
@@ -571,7 +562,7 @@ const nota = notes[0];
   /* ------------------------------ responsive ------------------------------ */
 
   @media (max-width: 900px) {
-    .facetas, .principios, .novedades { grid-template-columns: 1fr; gap: 28px; }
+    .facetas, .principios { grid-template-columns: 1fr; gap: 28px; }
     .sys { grid-template-columns: 1fr; gap: 28px; }
     .sys__logo img { width: min(220px, 65%); }
   }

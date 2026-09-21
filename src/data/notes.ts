@@ -10,21 +10,21 @@ export interface Note {
   paragraphs: string[];
 }
 
-const date = '2026-09-20';
+const date = '2026-09-21';
 
 export const notes: Note[] = [
   {
     slug: 'profesionalizar-sys',
-    title: 'Estoy profesionalizando SyS',
+    title: 'Tranquilidad operativa.',
     description:
-      'Entré a los 16, en 2019. Ahora tomo las decisiones pesadas: ordenar procesos, automatizar lo que se repite y armar el área comercial.',
+      'Entré a los 16. Pasé por todos los puestos. Ahora pulo procesos y armo el área comercial de SyS.',
     date,
     dateLabel: fecha(date),
     paragraphs: [
-      `Servicios y Sistemas la fundó mi papá, Daniel Malgor, en Corrientes, en ${profile.sys.founded}. Yo entré a los 16, en ${profile.joinedYear}. Empresa familiar, segunda generación.`,
-      'Durante años no tomaba las decisiones pesadas: precios, a quién contratar, qué dejar de hacer. Ahora sí. Lo primero que ordené fue lo que el equipo hacía a mano cada mes: reportes, seguimientos, recortes que se repetían igual. Con Tango donde alcanza y con una app a medida donde no.',
-      'El área comercial, que no existía como área, la estoy armando ahora. Soy Técnico Certificado Tango Elite: el sello es personal. El de SyS es Centro de Ventas y Servicios Certificado.',
-      'Lo que veo en las PYMES del NEA lo llevo al aula de la UTN, y lo que estudio lo pruebo acá.',
+      `Servicios y Sistemas la fundó mi papá, Daniel Malgor, en Corrientes, en ${profile.sys.founded}. Yo entré a los 16, en ${profile.joinedYear}. Empresa familiar: hoy soy la segunda generación.`,
+      'Pasé por todos los huecos: técnico, vendedor, soporte, y alguna vez administrativo. Esa recorrida me sirvió para entender cómo funciona SyS y cómo funcionan las demás PYMEs de la región. Sistematizar procesos se hace desde adentro.',
+      'Hoy me dedico a mejorarlos y pulirlos. El área comercial, que no existía como área, la estoy armando ahora: para que SyS se dé más a conocer. Con más de mil implementaciones Tango, esa parte no puede quedar atrás.',
+      'Las ideas son nuevas. Los valores, no. A una PYME hay que darle a alguien a quien confiarle los sistemas y la infraestructura. Tranquilidad operativa.',
     ],
   },
 ];

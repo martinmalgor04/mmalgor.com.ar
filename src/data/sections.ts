@@ -118,5 +118,5 @@ export const meetupsSection = {
 
 export const novedades = {
   eyebrow: 'Novedades',
-  title: 'Lo último.',
+  title: 'Ahora.',
 };

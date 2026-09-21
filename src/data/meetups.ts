@@ -42,7 +42,7 @@ export const meetups: Meetup[] = [
     date: '2026-09-16',
     dateLabel: fecha('2026-09-16'),
     place: 'Corrientes',
-    text: 'La primera Grok Bot Meetup de Corrientes. Workshop con Tobías Insaurralde: Grok Bot Galaxy, cómo pasar un agente a producción, y un panel de preguntas. El equipo de Tero App contó cómo construyen Tero, y los de Fondare App hicieron lo mismo. Cerramos con pizza.',
+    text: 'La primera Grok Bot Meetup de Corrientes. Workshop con Tobías Insaurralde: Grok Bot, cómo pasar un agente a producción, y un panel de preguntas. El equipo de Tero App contó cómo construyen Tero, y los de Fondare App hicieron lo mismo. Cerramos con pizza.',
     logo: spacexLogo,
     photos: [
       {
@@ -51,7 +51,7 @@ export const meetups: Meetup[] = [
       },
       {
         src: `${CDN}/grok-bot-2026/01-apertura.jpg`,
-        alt: 'Apertura de la Grok Bot Meetup con la presentación de Grok Bot Galaxy en pantalla',
+        alt: 'Apertura de la Grok Bot Meetup con la presentación de Grok Bot en pantalla',
       },
       {
         src: `${CDN}/grok-bot-2026/02-agentes.jpg`,

@@ -4,13 +4,16 @@ import Base from '../layouts/Base.astro';
 import ContactCtas from '../components/ContactCtas.astro';
 import { profile } from '../data/profile';
 import { now } from '../data/now';
+import { notes } from '../data/notes';
+
+const nota = notes[0];
 ---
 
 <Base
   chrome="minimal"
   title={`Ahora — ${profile.name}`}
   description={now.excerpt}
-  published={now.updated}
+  published={now.date}
   modified={now.updated}
 >
   <article class="page">
@@ -28,8 +31,8 @@ import { now } from '../data/now';
           {now.paragraphs.map((p) => <p>{p}</p>)}
         </div>
         <p class="page__foot">
-          <a class="cta cta--link" href="/notas/profesionalizar-sys" data-umami-event="click-nota-now">
-            Nota: Estoy profesionalizando SyS
+          <a class="cta cta--link" href={`/notas/${nota.slug}`} data-umami-event="click-nota-now">
+            Nota: {nota.title}
             <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
           </a>
         </p>
