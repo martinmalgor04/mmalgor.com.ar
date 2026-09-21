@@ -1,34 +1,42 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { profile } from '../data/profile';
-import { links } from '../data/links';
+import { profile, whatsappHref } from '../data/profile';
 
 interface Props {
   homeHref?: string;
   pinned?: boolean;
 }
 const { homeHref = '#inicio', pinned = false } = Astro.props;
+
+const sections = [
+  { href: '/#que-hago', label: 'Qué hago' },
+  { href: '/#meetups', label: 'Meetups' },
+  { href: '/#ahora', label: 'Ahora' },
+  { href: '/#contacto', label: 'Contacto' },
+];
 ---
 
-<header class:list={['sh', pinned && 'is-visible']} id="sticky-header" aria-label="Accesos rápidos" data-pinned={pinned ? 'true' : undefined}>
+<header class:list={['sh', pinned && 'is-visible']} id="sticky-header" aria-label="Navegación" data-pinned={pinned ? 'true' : undefined}>
   <div class="container sh__inner">
     <a class="sh__brand" href={homeHref}>{profile.name}</a>
-    <nav class="sh__links" aria-label="Redes y contacto">
-      {
-        links.map((l) => (
-          <a
-            href={l.href}
-            rel={l.external ? 'me noopener' : undefined}
-            target={l.external ? '_blank' : undefined}
-            aria-label={l.label}
-            title={l.label}
-            data-umami-event={`${l.event}-header`}
-          >
-            <Icon name={l.icon} size={17} />
-          </a>
-        ))
-      }
+    <nav class="sh__nav" aria-label="Secciones">
+      {sections.map((s) => (
+        <a href={s.href} data-umami-event={`click-nav-${s.label.toLowerCase().replace(/\s+/g, '-')}`}>
+          {s.label}
+        </a>
+      ))}
     </nav>
+    <a
+      class="sh__wa"
+      href={whatsappHref}
+      target="_blank"
+      rel="noopener"
+      data-umami-event="click-whatsapp-header"
+    >
+      <Icon name="tabler:brand-whatsapp" size={18} aria-hidden="true" />
+      <span class="sh__wa-label">WhatsApp</span>
+      <span class="sr-only">(se abre en otra pestaña)</span>
+    </a>
   </div>
 </header>
 
@@ -46,9 +54,21 @@ const { homeHref = '#inicio', pinned = false } = Astro.props;
     border-bottom: 1px solid var(--hairline);
     transform: translateY(-100%);
     opacity: 0;
-    transition: transform var(--base) var(--ease), opacity var(--base) var(--ease);
+    visibility: hidden;
+    transition:
+      transform var(--base) var(--ease),
+      opacity var(--base) var(--ease),
+      visibility 0s linear var(--base);
   }
-  .sh.is-visible { transform: none; opacity: 1; }
+  .sh.is-visible {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      transform var(--base) var(--ease),
+      opacity var(--base) var(--ease),
+      visibility 0s;
+  }
 
   .sh__inner {
     height: 100%;
@@ -63,16 +83,45 @@ const { homeHref = '#inicio', pinned = false } = Astro.props;
     font-weight: 600;
     font-size: 15px;
     letter-spacing: -0.01em;
+    flex-shrink: 0;
   }
-  .sh__links { display: flex; gap: 2px; }
-  .sh__links a {
-    width: 36px;
-    height: 36px;
-    display: grid;
-    place-items: center;
-    border-radius: 10px;
+  .sh__nav {
+    display: flex;
+    gap: 4px 18px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .sh__nav a {
     color: var(--muted);
-    transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+    text-decoration: none;
+    padding: 8px 0;
+    transition: color var(--fast) var(--ease);
   }
-  .sh__links a:hover { background: var(--surface-alt); color: var(--text); }
+  .sh__nav a:hover { color: var(--text); }
+  .sh__wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 12px;
+    border-radius: 980px;
+    background: var(--color-electric-deep);
+    color: var(--color-white);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 899px) {
+    .sh__nav { display: none; }
+    .sh__wa-label { display: none; }
+    .sh__wa {
+      width: 44px;
+      height: 44px;
+      min-height: 44px;
+      padding: 0;
+      justify-content: center;
+    }
+  }
 </style>

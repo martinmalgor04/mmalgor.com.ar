@@ -1,44 +1,67 @@
 ---
 import { profile } from '../data/profile';
-import { links } from '../data/links';
 import { notes } from '../data/notes';
 
 const nota = notes[0];
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const contacto = [
+  { href: `https://wa.me/${profile.whatsapp.number}`, label: 'WhatsApp', event: 'click-whatsapp-footer', external: true },
+  { href: `mailto:${profile.email}`, label: 'Email', event: 'click-email-footer', external: false },
+  { href: profile.linkedin, label: 'LinkedIn', event: 'click-linkedin-footer', external: true },
+  { href: profile.x, label: 'X', event: 'click-x-footer', external: true },
+  { href: profile.instagram, label: 'Instagram', event: 'click-instagram-footer', external: true },
+  { href: profile.vcard, label: 'Guardar contacto', event: 'download-vcard-footer', external: false, download: true },
+];
+
+const sitio = [
+  { href: '/now', label: 'Ahora', event: 'click-now-footer' },
+  ...(nota ? [{ href: `/notas/${nota.slug}`, label: `Nota: ${nota.title}`, event: 'click-nota-footer' }] : []),
+  ...(path !== '/links' ? [{ href: '/links', label: 'Contacto y redes', event: 'click-links-footer' }] : []),
+  { href: '/rss.xml', label: 'RSS', event: 'click-rss-footer' },
+  { href: profile.sys.url, label: 'SyS', event: 'click-sys-footer', external: true },
+].filter((l) => l.href !== path);
 ---
 
 <footer class="footer">
   <div class="container footer__inner">
     <p class="footer__copy">© 2026 {profile.name} · {profile.location}</p>
-    <nav class="footer__links" aria-label="Enlaces del pie">
-      {
-        links.map((l) => (
-          <a
-            href={l.href}
-            rel={l.external ? 'me noopener' : undefined}
-            target={l.external ? '_blank' : undefined}
-            data-umami-event={`${l.event}-footer`}
-          >
-            {l.short ?? l.label}
-          </a>
-        ))
-      }
-      <a href="/now" data-umami-event="click-now-footer">Ahora</a>
-      {nota && (
-        <a href={`/notas/${nota.slug}`} data-umami-event="click-nota-footer">Nota</a>
-      )}
-      <a href="/links" data-umami-event="click-links-footer">Links</a>
-      <a href="/rss.xml" data-umami-event="click-rss-footer">RSS</a>
-      <a href="/martin-malgor.vcf" download data-umami-event="download-vcard-footer">Guardar contacto</a>
+    <nav class="footer__group" aria-label="Contacto">
+      {contacto.map((l) => (
+        <a
+          href={l.href}
+          rel={l.external ? 'me noopener' : undefined}
+          target={l.external ? '_blank' : undefined}
+          download={'download' in l && l.download ? true : undefined}
+          data-umami-event={l.event}
+        >
+          {l.label}
+          {l.external && <span class="sr-only">(se abre en otra pestaña)</span>}
+        </a>
+      ))}
+    </nav>
+    <nav class="footer__group" aria-label="Sitio">
+      {sitio.map((l) => (
+        <a
+          href={l.href}
+          rel={'external' in l && l.external ? 'noopener' : undefined}
+          target={'external' in l && l.external ? '_blank' : undefined}
+          data-umami-event={l.event}
+        >
+          {l.label}
+          {'external' in l && l.external && <span class="sr-only">(se abre en otra pestaña)</span>}
+        </a>
+      ))}
     </nav>
   </div>
 </footer>
 
 <style>
   .footer {
-    background: var(--surface-alt);
+    background: var(--color-black);
     border-top: 1px solid var(--hairline);
     padding-block: 28px;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--muted);
   }
   .footer__inner {
@@ -46,13 +69,21 @@ const nota = notes[0];
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 12px 32px;
+    gap: 16px 32px;
   }
-  .footer__links { display: flex; flex-wrap: wrap; gap: 6px 22px; }
-  .footer__links a {
+  .footer__group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 22px;
+  }
+  .footer__group a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 10px 0;
     color: var(--text);
     text-decoration: none;
     transition: color var(--fast) var(--ease);
   }
-  .footer__links a:hover { color: var(--color-electric); }
+  .footer__group a:hover { color: var(--color-electric); }
 </style>

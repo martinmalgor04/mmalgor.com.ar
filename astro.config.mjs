@@ -5,11 +5,17 @@ import sitemap from '@astrojs/sitemap';
 import icon from 'astro-icon';
 import { lastmodForUrl } from './src/lib/seo.ts';
 
+const r2Host = 'pub-9195f8a94602486395419c2bb7beab6b.r2.dev';
+
 export default defineConfig({
   site: 'https://mmalgor.com.ar',
   output: 'static',
   trailingSlash: 'never',
   compressHTML: true,
+
+  image: {
+    remotePatterns: [{ protocol: 'https', hostname: r2Host }],
+  },
 
   integrations: [
     sitemap({
@@ -33,7 +39,8 @@ export default defineConfig({
 
   vite: { plugins: [tailwindcss()] },
 
-  // GitHub Pages no permite headers HTTP: la CSP va como <meta> con hashes.
+  // En Vercel también se puede mandar CSP como header (HSTS y frame-ancestors
+  // van en vercel.json). Acá la CSP sigue como <meta> con hashes de build.
   security: {
     csp: {
       scriptDirective: {
@@ -41,17 +48,15 @@ export default defineConfig({
       },
       styleDirective: {
         resources: [
-          "'self'",
-          // GSAP y Lenis escriben transform/opacity en style="". No afloja <style> ni CSS externo.
+          { resource: "'self'", kind: 'element' },
           { resource: "'unsafe-inline'", kind: 'attribute' },
         ],
       },
       directives: [
         "default-src 'self'",
         "connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev",
-        "img-src 'self' data: https://serviciosysistemas.com.ar https://pub-9195f8a94602486395419c2bb7beab6b.r2.dev",
-        // El video de los meetups sale del CDN; sin esto cae en default-src 'self'.
-        "media-src 'self' https://pub-9195f8a94602486395419c2bb7beab6b.r2.dev",
+        `img-src 'self' data: https://${r2Host}`,
+        `media-src 'self' https://${r2Host}`,
         "object-src 'none'",
         "base-uri 'self'",
         "form-action 'self'",

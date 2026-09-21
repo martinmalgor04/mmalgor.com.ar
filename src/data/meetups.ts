@@ -1,5 +1,11 @@
 /** Fotos y videos viven en el CDN (R2), no en el repo. */
+import { fecha } from '../lib/dates';
+
 const CDN = 'https://pub-9195f8a94602486395419c2bb7beab6b.r2.dev/mmalgor/meetups';
+const spacexLogo = {
+  src: '/brands/spacexai-wordmark-white.png',
+  alt: 'SpaceX AI',
+} as const;
 
 export interface MeetupPhoto {
   src: string;
@@ -15,7 +21,6 @@ export interface MeetupVideo {
 
 export interface Meetup {
   id: string;
-  kicker: string;
   title: string;
   date: string;
   dateLabel: string;
@@ -33,16 +38,12 @@ export interface Meetup {
 export const meetups: Meetup[] = [
   {
     id: 'grok-bot-corrientes-2026',
-    kicker: '16 de septiembre de 2026',
     title: 'Grok Bot Meetup Corrientes',
     date: '2026-09-16',
-    dateLabel: '16 de septiembre de 2026',
+    dateLabel: fecha('2026-09-16'),
     place: 'Corrientes',
-    text: 'La primera Grok Bot Meetup de Corrientes. Workshop de Grok Bot junto a Tobias Insaurralde.',
-    logo: {
-      src: '/brands/spacexai-wordmark-white.png',
-      alt: 'SpaceX AI',
-    },
+    text: 'La primera Grok Bot Meetup de Corrientes. Workshop con Tobías Insaurralde: Grok Bot Galaxy, cómo pasar un agente a producción, y un panel de preguntas. Cerramos con pizza.',
+    logo: spacexLogo,
     photos: [
       {
         src: `${CDN}/grok-bot-2026/03-sala.jpg`,
@@ -68,18 +69,18 @@ export const meetups: Meetup[] = [
     video: {
       src: `${CDN}/grok-bot-2026/grok-bot-meetup.mp4`,
       poster: `${CDN}/grok-bot-2026/grok-bot-meetup-poster.jpg`,
-      label: 'Un rato del workshop de Grok Bot, en Corrientes',
+      label: 'Un rato del workshop de Grok Bot, en Corrientes. El clip tiene habla y todavía no tiene subtítulos.',
     },
-    credit: 'Organizada con Tobias Insaurralde.',
+    credit: 'Organizada con Tobías Insaurralde.',
   },
   {
     id: 'cursor-resistencia-2025',
-    kicker: '10 de diciembre de 2025',
     title: 'Cursor Meetup Resistencia',
     date: '2025-12-10',
-    dateLabel: '10 de diciembre de 2025',
+    dateLabel: fecha('2025-12-10'),
     place: 'Resistencia',
     text: 'La primera Cursor Meetup en Resistencia. Más de 85 personas escuchando a Juan Rezzio contar cómo es trabajar adentro de Cursor, y al Ing. Agustín Gómez con una demo en vivo de buenas prácticas en desarrollo con IA. La pizza funcionó. La impresora de tickets, también.',
+    logo: spacexLogo,
     photos: [
       {
         src: `${CDN}/cursor-2025/01-sala.jpg`,

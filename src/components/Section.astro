@@ -4,20 +4,29 @@ interface Props {
   /** Texto chico gris arriba del título (estilo "subhead" de Apple). */
   kicker?: string;
   title?: string;
-  tone?: 'white' | 'gray' | 'navy';
+  tone?: 'white' | 'gray' | 'think';
   center?: boolean;
+  compact?: boolean;
   class?: string;
 }
-const { id, kicker, title, tone = 'white', center = false, class: cls } = Astro.props;
+const { id, kicker, title, tone = 'white', center = false, compact = false, class: cls } = Astro.props;
+const headingId = `${id}-titulo`;
 ---
 
-<section class:list={['section', `section--${tone}`, cls]} id={id} aria-labelledby={title ? `${id}-titulo` : undefined}>
+<section
+  class:list={['section', `section--${tone}`, compact && 'section--compact', cls]}
+  id={id}
+  aria-labelledby={kicker || title ? headingId : undefined}
+>
   <div class="container">
     {
       (kicker || title) && (
         <header class:list={['section__head', { 'section__head--center': center }]}>
-          {kicker && <p class="section__kicker" data-reveal>{kicker}</p>}
-          {title && <h2 class="section__title" id={`${id}-titulo`} data-reveal>{title}</h2>}
+          {kicker && !title && (
+            <h2 class="section__kicker" id={headingId} data-reveal>{kicker}</h2>
+          )}
+          {kicker && title && <p class="section__kicker" data-reveal>{kicker}</p>}
+          {title && <h2 class="section__title" id={headingId} data-reveal>{title}</h2>}
         </header>
       )
     }
@@ -30,19 +39,19 @@ const { id, kicker, title, tone = 'white', center = false, class: cls } = Astro.
     padding-block: clamp(72px, 10vw, 128px);
     scroll-margin-top: var(--header-h);
   }
+  .section--compact { padding-block: clamp(40px, 6vw, 64px); }
   .section--white { background: var(--color-black); }
   .section--gray { background: var(--surface-band); }
-  .section--navy {
+  .section--think {
     position: relative;
-    background: radial-gradient(ellipse 70% 60% at 50% 20%, #0f2238 0%, var(--color-navy) 55%, #050d16 100%);
-    color: var(--color-white);
+    background: var(--color-elev-1);
     overflow: hidden;
   }
-  .section--navy::after {
+  .section--think::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(500px circle at 50% 0%, rgba(33, 150, 243, 0.16), transparent 70%);
+    background: radial-gradient(ellipse 55% 60% at 50% 20%, rgba(33, 150, 243, 0.1) 0%, transparent 65%);
     pointer-events: none;
   }
 
@@ -62,6 +71,7 @@ const { id, kicker, title, tone = 'white', center = false, class: cls } = Astro.
     font-weight: 600;
     letter-spacing: -0.01em;
     color: var(--color-electric);
+    margin: 0;
   }
   .section__title {
     font-weight: 700;
@@ -69,6 +79,6 @@ const { id, kicker, title, tone = 'white', center = false, class: cls } = Astro.
     line-height: 1.1;
     letter-spacing: -0.03em;
     color: var(--text);
+    text-wrap: balance;
   }
-  .section--navy .section__title { color: var(--color-white); }
 </style>

@@ -1,60 +1,36 @@
 ---
 import { Icon } from 'astro-icon/components';
 import Base from '../layouts/Base.astro';
-import { profile } from '../data/profile';
+import { profile, whatsappHref } from '../data/profile';
 ---
 
 <Base
+  chrome="minimal"
   title={`No está — ${profile.name}`}
   description={`Esa página no existe. El sitio oficial de ${profile.name} es mmalgor.com.ar.`}
   noindex
   markdownPath={null}
 >
   <article class="page">
-    <div class="container page__inner">
-      <p class="page__kicker">404</p>
-      <h1 class="page__title">Eso no está.</h1>
-      <p class="page__body">Volvé al sitio de {profile.name}.</p>
-      <div class="page__links">
-        <a class="cta cta--primary" href="/">
-          Sitio
-          <Icon name="lucide:chevron-right" size={18} />
-        </a>
-        <a class="cta cta--secondary" href="/now">Ahora</a>
+    <div class="container">
+      <div class="page__inner">
+        <p class="page__kicker">404</p>
+        <h1 class="page__title">Eso no está.</h1>
+        <div class="page__body">
+          <p>Volvé al sitio de {profile.name}.</p>
+        </div>
+        <div class="page__links">
+          <a class="cta cta--primary" href="/" data-umami-event="click-home-404">
+            Ir al inicio
+            <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
+          </a>
+          <a class="cta cta--secondary" href={whatsappHref} target="_blank" rel="noopener" data-umami-event="click-whatsapp-404">
+            <Icon name="tabler:brand-whatsapp" size={18} aria-hidden="true" />
+            Escribime por WhatsApp
+            <span class="sr-only">(se abre en otra pestaña)</span>
+          </a>
+        </div>
       </div>
     </div>
   </article>
 </Base>
-
-<style>
-  .page {
-    padding-top: 88px;
-    padding-bottom: clamp(72px, 10vw, 128px);
-  }
-  .page__inner { max-width: 720px; }
-  .page__kicker {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--color-electric);
-    margin-bottom: 12px;
-  }
-  .page__title {
-    font-weight: 700;
-    font-size: clamp(36px, 6vw, 52px);
-    line-height: 1.08;
-    letter-spacing: -0.04em;
-    margin-bottom: 18px;
-  }
-  .page__body {
-    font-size: clamp(18px, 2.2vw, 21px);
-    line-height: 1.5;
-    color: var(--muted);
-    max-width: 28ch;
-  }
-  .page__links {
-    margin-top: 32px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-</style>

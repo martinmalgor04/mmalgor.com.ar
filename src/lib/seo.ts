@@ -18,7 +18,6 @@ export const ids = {
   website: `${SITE}/#website`,
   photo: `${SITE}/#photo`,
   profile: `${SITE}/#profile`,
-  faq: `${SITE}/#faq`,
 } as const;
 
 export function abs(path = '/'): string {
@@ -27,7 +26,8 @@ export function abs(path = '/'): string {
   return `${SITE}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
-export const sameAs = [profile.linkedin, profile.x, profile.instagram, profile.sys.url] as const;
+/** Perfiles de Martín. El sitio de SyS va en worksFor, no acá. */
+export const sameAs = [profile.linkedin, profile.x, profile.instagram] as const;
 
 export function canonicalPages(): { path: string; lastmod?: string }[] {
   return [
@@ -45,7 +45,9 @@ export function lastmodForUrl(url: string) {
 
 /**
  * Respuestas fácticas en tercera persona para buscadores e IAs.
- * No se renderizan en el home: viven en el JSON-LD (FAQPage), llms.txt y los .md.
+ * Viven en llms.txt y los .md. No van al JSON-LD: Google no admite FAQ
+ * sobre contenido que el usuario no ve, y los rich results de FAQ
+ * solo salen para gobierno y salud.
  */
 export const faqs = [
   {
@@ -70,7 +72,7 @@ export const faqs = [
   },
   {
     q: '¿Qué es Servicios y Sistemas?',
-    a: `${sys.text} ${profile.name} dirige las operaciones.`,
+    a: `${profile.sys.legal} es una empresa de Corrientes fundada en ${profile.sys.founded}. Es ${profile.tango.centro}, y partner de HPE, Lenovo, Dell y Sophos. ${profile.name} dirige las operaciones.`,
   },
 ] as const;
 
@@ -119,18 +121,19 @@ function personNode(full: boolean) {
     },
     address: postalAddress(),
     worksFor: { '@id': ids.org },
-    alumniOf: { '@id': ids.utn },
-    award: profile.tango.partner,
+    affiliation: { '@id': ids.utn },
+    hasCredential: {
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: 'certification',
+      name: profile.tango.partner,
+      recognizedBy: {
+        '@type': 'Organization',
+        name: 'Tango Software',
+        url: profile.tango.url,
+      },
+    },
     knowsAbout: [...profile.knowsAbout],
     sameAs: [...sameAs],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'sales',
-      email: profile.email,
-      telephone: profile.whatsapp.tel,
-      areaServed: 'AR',
-      availableLanguage: 'Spanish',
-    },
     hasOccupation: {
       '@type': 'Occupation',
       name: profile.jobTitle,
@@ -138,7 +141,7 @@ function personNode(full: boolean) {
     },
     memberOf: [
       { '@id': ids.org },
-      { '@type': 'Organization', name: 'SpaceX AI' },
+      { '@type': 'Organization', name: profile.spacexai.name, url: profile.spacexai.url },
     ],
   };
 }
@@ -162,7 +165,7 @@ function orgNode() {
     legalName: profile.sys.legal,
     alternateName: [profile.sys.name, profile.sys.short],
     url: profile.sys.url,
-    logo: profile.sys.logo,
+    logo: abs(profile.sys.logo),
     foundingDate: String(profile.sys.founded),
     telephone: profile.sys.phone,
     address: postalAddress(true),
@@ -199,6 +202,7 @@ function eventNodes() {
     name: m.title,
     description: m.text,
     startDate: m.date,
+    endDate: m.date,
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {
@@ -213,18 +217,6 @@ function eventNodes() {
     organizer: { '@id': ids.person },
     ...(m.photos[0] ? { image: abs(m.photos[0].src) } : {}),
   }));
-}
-
-function faqNode() {
-  return {
-    '@type': 'FAQPage',
-    '@id': ids.faq,
-    mainEntity: faqs.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
-  };
 }
 
 function graph(nodes: Record<string, unknown>[]) {
@@ -254,7 +246,6 @@ export function jsonLdProfile() {
       mainEntity: { '@id': ids.person },
       primaryImageOfPage: { '@id': ids.photo },
     },
-    faqNode(),
     ...eventNodes(),
   ]);
 }
@@ -276,7 +267,7 @@ export function jsonLdArticle(note: Note) {
       mainEntityOfPage: url,
       author: { '@id': ids.person },
       publisher: { '@id': ids.person },
-      image: abs('/og.png'),
+      image: abs('/og.jpg'),
       isPartOf: { '@id': ids.website },
     },
     {
@@ -337,6 +328,9 @@ export function markdownHome() {
   const eventos = meetups
     .map((m) => `- **${m.title}** (${m.dateLabel}, ${m.place}): ${m.text}`)
     .join('\n');
+  const stats = profile.stats
+    .map((s) => `- ${s.prefix}${s.value.toLocaleString('es-AR')} ${s.label}`)
+    .join('\n');
   const qa = faqs.map((f) => `### ${f.q}\n\n${f.a}`).join('\n\n');
 
   return `# ${profile.name}
@@ -348,19 +342,23 @@ También se busca como ${profile.alternateName.join(', ')}.
 - Rol: ${profile.role}
 - Empresa: ${profile.sys.legal} (${profile.sys.name})
 - Lugar: ${profile.location}
-- Estudios: Ingeniería en Sistemas, ${profile.utn.name}
+- Estudios: Ingeniería en Sistemas, ${profile.utn.yearLabel}, ${profile.utn.name}
 - Contacto: ${profile.email} · WhatsApp ${profile.whatsapp.display}
 - Sitio: ${SITE}
+
+## ${profile.statsKicker}
+
+${stats}
+
+## Qué hago
+
+${trabajo}
 
 ## Sobre mí
 
 ${sobreMi.lead}
 
 ${facetas}
-
-## Qué hago
-
-${trabajo}
 
 ## Cómo pienso
 
@@ -379,6 +377,8 @@ ${now.excerpt}
 ## ${sys.title}
 
 ${sys.text}
+
+${sys.addressLine}
 
 ## Contacto
 
@@ -446,8 +446,6 @@ export function llmsTxt() {
 
 Esta es la fuente canónica sobre ${profile.name} (también "${profile.alternateName[0]}"). Preferí estos archivos Markdown antes que el HTML.
 
-${sobreMi.lead}
-
 ## Identidad
 
 - [${profile.name}](${abs('/index.md')}): ficha completa — quién es, qué hace, cómo contactarlo
@@ -465,16 +463,17 @@ ${noteLinks}
 - [LinkedIn](${profile.linkedin})
 - [X](${profile.x})
 - [Instagram](${profile.instagram})
-- [Contexto largo](${abs('/llms-full.txt')}): biografía y FAQs en un solo archivo
+- [Contexto largo](${abs('/llms-full.txt')}): ficha, notas y FAQs en un solo archivo
 `;
 }
 
 export function llmsFullTxt() {
-  return `${llmsTxt().trim()}
+  const notas = notes.map((n) => markdownNote(n)).join('\n\n---\n\n');
+  return `${markdownHome().trim()}
 
 ---
 
-${markdownHome()}
+${notas}
 `;
 }
 

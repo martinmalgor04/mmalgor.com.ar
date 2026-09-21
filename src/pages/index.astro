@@ -5,8 +5,9 @@ import Avatar from '../components/Avatar.astro';
 import Stats from '../components/Stats.astro';
 import Section from '../components/Section.astro';
 import Card from '../components/Card.astro';
+import ContactCtas from '../components/ContactCtas.astro';
 import { profile, whatsappHref } from '../data/profile';
-import { queHago, sobreMi, manifiesto, sys, contacto, meetupsSection } from '../data/sections';
+import { queHago, sobreMi, manifiesto, sys, contacto, meetupsSection, novedades, words } from '../data/sections';
 import MeetupList from '../components/MeetupList.astro';
 import { now } from '../data/now';
 import { notes } from '../data/notes';
@@ -20,30 +21,42 @@ const nota = notes[0];
     <div class="hero__spot" aria-hidden="true"></div>
     <div class="container hero__inner">
       <div class="hero__avatar" data-rise>
-        <Avatar initials={profile.initials} alt={`${profile.name}, ${profile.role}`} src="/martin-malgor.jpg" />
+        <Avatar initials={profile.initials} alt={`${profile.name}, ${profile.role}`} src={profile.photo} />
       </div>
 
       <h1 class="hero__name" data-rise>{profile.name}</h1>
       <p class="hero__tagline" data-rise>{profile.tagline}</p>
-      <p class="hero__identity" data-rise>{profile.identity.line}</p>
+      <p class="hero__identity" data-rise>
+        {profile.identity.parts.map((part) => <span>{part}</span>)}
+      </p>
 
       <div class="hero__actions" data-rise>
         <a class="cta cta--primary" href={whatsappHref} target="_blank" rel="noopener" data-umami-event="click-whatsapp-home">
-          Hablemos
-          <Icon name="lucide:chevron-right" size={18} />
+          <Icon name="tabler:brand-whatsapp" size={18} aria-hidden="true" />
+          Escribime por WhatsApp
+          <span class="sr-only">(se abre en otra pestaña)</span>
         </a>
-        <a class="cta cta--secondary" href="/links" data-umami-event="click-links-home">
-          Links
+        <a class="cta cta--secondary" href="#que-hago" data-umami-event="click-quehago-home">
+          Qué hago
         </a>
       </div>
 
       <div class="hero__foot" data-rise>
         <div class="hero__stats">
-          <Stats items={profile.stats} />
+          <Stats items={profile.stats} kicker={profile.statsKicker} />
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ═══════════════════ QUÉ HAGO ═══════════════════ -->
+  <Section id="que-hago" tone="white" kicker={queHago.eyebrow} title={queHago.title}>
+    <div class="grid grid--2">
+      {queHago.items.map((c) => (
+        <Card title={c.title} icon={c.icon} href={c.href} event={c.event}>{c.text}</Card>
+      ))}
+    </div>
+  </Section>
 
   <!-- ═══════════════════ SOBRE MÍ ═══════════════════ -->
   <Section id="sobre-mi" tone="gray" title={sobreMi.title} center>
@@ -74,33 +87,20 @@ const nota = notes[0];
           ))
         }
       </div>
-      <div class="now" id="ahora">
-        <p class="now__kicker">
-          Ahora · <time datetime={now.updated}>{now.updatedLabel}</time>
-        </p>
-        <p class="now__excerpt">{now.excerpt}</p>
-        <a class="cta cta--link" href="/now" data-umami-event="click-now-home">
-          Qué estoy haciendo ahora
-          <Icon name="lucide:chevron-right" size={18} />
-        </a>
-      </div>
-    </div>
-  </Section>
-
-  <!-- ═══════════════════ QUÉ HAGO ═══════════════════ -->
-  <Section id="que-hago" tone="white" kicker={queHago.eyebrow} title={queHago.title}>
-    <div class="grid grid--2">
-      {queHago.items.map((c) => <Card title={c.title} icon={c.icon}>{c.text}</Card>)}
     </div>
   </Section>
 
   <!-- ═══════════════════ CÓMO PIENSO ═══════════════════ -->
-  <Section id="como-pienso" tone="navy" class="manifiesto">
-    <h2 class="sr-only">Cómo trabajamos</h2>
-    <p class="manifiesto__texto" data-split>
-      {manifiesto.lines[0]}<br />
-      {manifiesto.lines[1]} <span class="highlight">{manifiesto.highlight}</span><br />
-      {manifiesto.lines[2]}
+  <Section id="como-pienso" tone="think" kicker="Cómo pienso" class="manifiesto">
+    <p class="manifiesto__texto">
+      {words(manifiesto.lines[0]).map((w) => <span class="word">{w}</span>)}
+      <br />
+      {words(manifiesto.lines[1]).map((w) => <span class="word">{w}</span>)}
+      <span class="highlight">
+        {words(manifiesto.highlight).map((w) => <span class="word">{w}</span>)}
+      </span>
+      <br />
+      {words(manifiesto.lines[2]).map((w) => <span class="word">{w}</span>)}
     </p>
     <div class="principios">
       {
@@ -116,40 +116,55 @@ const nota = notes[0];
 
   <!-- ═══════════════════ MEETUPS ═══════════════════ -->
   <Section id="meetups" tone="gray" kicker={meetupsSection.eyebrow} title={meetupsSection.title}>
+    <p class="meetups__lead" data-reveal>{meetupsSection.lead}</p>
     <MeetupList />
   </Section>
 
-  <!-- ═══════════════════ NOTA ═══════════════════ -->
-  {
-    nota && (
-      <Section id="nota" tone="white">
-        <article class="nota">
-          <p class="nota__kicker">
-            Nota · <time datetime={nota.date}>{nota.dateLabel}</time>
-          </p>
-          <h2 class="nota__title">{nota.title}</h2>
-          <p class="nota__text">{nota.description}</p>
-          <a class="cta cta--link" href={`/notas/${nota.slug}`} data-umami-event="click-nota-home">
-            Leer
-            <Icon name="lucide:chevron-right" size={18} />
-          </a>
-        </article>
-      </Section>
-    )
-  }
+  <!-- ═══════════════════ NOVEDADES ═══════════════════ -->
+  <Section id="ahora" tone="white" kicker={novedades.eyebrow} title={novedades.title} compact>
+    <div class="novedades">
+      <article class="entrada">
+        <p class="entrada__kicker">
+          Ahora · <time datetime={now.updated}>{now.updatedLabel}</time>
+        </p>
+        <p class="entrada__text">{now.excerpt}</p>
+        <a class="cta cta--link" href="/now" data-umami-event="click-now-home">
+          Qué estoy haciendo ahora
+          <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
+        </a>
+      </article>
+      {
+        nota && (
+          <article class="entrada">
+            <p class="entrada__kicker">
+              Nota · <time datetime={nota.date}>{nota.dateLabel}</time>
+            </p>
+            <h3 class="entrada__title">{nota.title}</h3>
+            <p class="entrada__text">{nota.description}</p>
+            <a class="cta cta--link" href={`/notas/${nota.slug}`} data-umami-event="click-nota-home">
+              Leer la nota
+              <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
+            </a>
+          </article>
+        )
+      }
+    </div>
+  </Section>
 
   <!-- ═══════════════════ SyS ═══════════════════ -->
-  <Section id="sys" tone="gray">
+  <Section id="sys" tone="gray" title={sys.title} compact>
     <div class="sys" data-reveal>
       <div class="sys__logo">
-        <img src={profile.sys.logo} width="720" height="87" alt="Servicios y Sistemas" />
+        <img src={profile.sys.logo} width="720" height="87" alt="" />
       </div>
       <div class="sys__body">
         <p class="sys__kicker">{sys.eyebrow}</p>
         <p class="sys__copy">{sys.text}</p>
+        <p class="sys__addr">{sys.addressLine}</p>
         <a class="cta cta--link" href={profile.sys.url} target="_blank" rel="noopener" data-umami-event="click-sys-section">
           {sys.cta}
-          <Icon name="lucide:chevron-right" size={18} />
+          <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
+          <span class="sr-only">(se abre en otra pestaña)</span>
         </a>
       </div>
     </div>
@@ -159,32 +174,39 @@ const nota = notes[0];
   <Section id="contacto" tone="white" title={contacto.title} center>
     <div class="contacto">
       <p class="contacto__sub" data-reveal>{contacto.text}</p>
-      <div class="contacto__cta" data-reveal>
-        <a class="cta cta--primary" href={whatsappHref} target="_blank" rel="noopener" data-umami-event="click-whatsapp-footer">
-          Escribime por WhatsApp
-        </a>
-        <a class="cta cta--secondary" href={profile.linkedin} target="_blank" rel="me noopener" data-umami-event="click-linkedin-footer">
-          Escribime por LinkedIn
-        </a>
+      <div data-reveal>
+        <ContactCtas waEvent="click-whatsapp-contacto" liEvent="click-linkedin-contacto" vcard />
       </div>
+      <p class="contacto__recruiter" data-reveal>{contacto.recruiter}</p>
       <ul class="contacto__links" role="list" data-reveal>
         <li>
           <span class="contacto__label">Email</span>
-          <a href={`mailto:${profile.email}`} data-umami-event="click-email-footer">{profile.email}</a>
+          <a href={`mailto:${profile.email}`} data-umami-event="click-email-contacto">{profile.email}</a>
+          <button class="contacto__copy" type="button" data-copy={profile.email} aria-label={`Copiar ${profile.email}`}>
+            Copiar
+            <span class="tile__copied" role="status"></span>
+          </button>
         </li>
         <li>
           <span class="contacto__label">WhatsApp</span>
-          <a href={whatsappHref} target="_blank" rel="noopener">{profile.whatsapp.display}</a>
+          <a href={whatsappHref} target="_blank" rel="noopener" data-umami-event="click-whatsapp-contacto-num">
+            {profile.whatsapp.display}
+            <span class="sr-only">(se abre en otra pestaña)</span>
+          </a>
         </li>
         <li>
           <span class="contacto__label">X</span>
-          <a href={profile.x} target="_blank" rel="me noopener" data-umami-event="click-x-footer">
+          <a href={profile.x} target="_blank" rel="me noopener" data-umami-event="click-x-contacto">
             @{profile.xHandle}
+            <span class="sr-only">(se abre en otra pestaña)</span>
           </a>
         </li>
         <li>
           <span class="contacto__label">Instagram</span>
-          <a href={profile.instagram} target="_blank" rel="me noopener">@{profile.instagramHandle}</a>
+          <a href={profile.instagram} target="_blank" rel="me noopener" data-umami-event="click-instagram-contacto">
+            @{profile.instagramHandle}
+            <span class="sr-only">(se abre en otra pestaña)</span>
+          </a>
         </li>
       </ul>
     </div>
@@ -252,7 +274,7 @@ const nota = notes[0];
     text-align: center;
   }
 
-  /* Stagger de entrada sin atributos style (la CSP los bloquea). */
+  /* Stagger de entrada. style-src-attr 'unsafe-inline' está permitido; esto evita hashes que cambian. */
   .hero__inner > :nth-child(2) { --i: 1; }
   .hero__inner > :nth-child(3) { --i: 2; }
   .hero__inner > :nth-child(4) { --i: 3; }
@@ -281,14 +303,20 @@ const nota = notes[0];
     letter-spacing: -0.02em;
     color: var(--muted);
     max-width: 22ch;
+    text-wrap: balance;
   }
   .hero__identity {
     margin-top: 14px;
-    font-size: 15px;
+    font-size: 16px;
     line-height: 1.45;
     letter-spacing: -0.01em;
-    color: var(--faint);
-    max-width: 38ch;
+    color: var(--muted);
+    max-width: 42ch;
+    text-wrap: balance;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0 0.35em;
   }
 
   .hero__actions {
@@ -319,6 +347,14 @@ const nota = notes[0];
   .grid { display: grid; gap: 18px; }
   .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
+  .meetups__lead {
+    max-width: 52ch;
+    margin-bottom: clamp(28px, 4vw, 40px);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
   /* sobre mí */
   .sobre {
     display: grid;
@@ -347,20 +383,19 @@ const nota = notes[0];
     border-top: 1px solid var(--hairline);
     padding-top: 26px;
   }
-  /* Fila de alto fijo: los títulos de las tres facetas arrancan a la misma altura. */
   .faceta__marca {
     display: flex;
     align-items: center;
-    height: 40px;
+    height: 48px;
     margin-bottom: 14px;
   }
-  /* Alto fijo, ancho libre: el sello cuadrado y los isologos apaisados pesan igual. */
   .faceta__mark {
     width: auto;
+    max-height: 100%;
+    max-width: 140px;
+    object-fit: contain;
     flex-shrink: 0;
   }
-  .faceta__mark--badge { height: 40px; }
-  .faceta__mark--wide { height: 22px; }
   .faceta h3 {
     margin-bottom: 10px;
     font-weight: 600;
@@ -368,6 +403,7 @@ const nota = notes[0];
     line-height: 1.25;
     letter-spacing: -0.02em;
     color: var(--text);
+    text-wrap: balance;
   }
   .faceta p {
     font-size: 16px;
@@ -385,10 +421,11 @@ const nota = notes[0];
     line-height: 1.2;
     letter-spacing: -0.03em;
     color: var(--color-white);
+    text-wrap: balance;
   }
-  .manifiesto__texto .highlight { color: var(--color-sky); }
-  .manifiesto__texto :global(.word) {
+  .manifiesto__texto .word {
     display: inline-block;
+    margin-right: 0.28em;
     will-change: opacity, color;
   }
   .principios {
@@ -412,52 +449,49 @@ const nota = notes[0];
   .principio p {
     font-size: 16px;
     line-height: 1.55;
-    color: rgba(255, 255, 255, 0.68);
+    color: var(--muted);
   }
 
-  /* now + nota */
-  .now {
+  /* novedades */
+  .novedades {
     display: grid;
-    justify-items: center;
-    text-align: center;
-    gap: 14px;
-    max-width: 46ch;
-    padding-top: clamp(36px, 5vw, 56px);
-    border-top: 1px solid var(--hairline);
-    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(32px, 5vw, 56px);
   }
-  .nota {
+  .entrada {
     display: grid;
     justify-items: start;
+    text-align: left;
     gap: 14px;
-    max-width: 46ch;
   }
-  .now__kicker, .nota__kicker {
+  .entrada__kicker {
     font-size: 15px;
     font-weight: 600;
-    color: var(--color-electric);
+    color: var(--muted);
   }
-  .now__excerpt, .nota__text {
-    font-size: clamp(20px, 2.6vw, 24px);
-    line-height: 1.35;
-    letter-spacing: -0.02em;
-    color: var(--text);
-  }
-  .nota__title {
+  .entrada__title {
     font-weight: 700;
-    font-size: clamp(28px, 4vw, 36px);
-    line-height: 1.15;
+    font-size: clamp(22px, 3vw, 28px);
+    line-height: 1.2;
     letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .entrada__text {
+    font-size: clamp(17px, 2vw, 20px);
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--text);
+    max-width: 42ch;
   }
 
   /* SyS: mención compacta, no protagonista */
   .sys {
     display: grid;
-    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
     align-items: center;
-    gap: clamp(32px, 6vw, 80px);
+    gap: clamp(24px, 4vw, 48px);
   }
-  .sys__logo img { width: min(280px, 100%); height: auto; }
+  .sys__logo img { width: min(180px, 100%); height: auto; opacity: 0.85; }
   .sys__body { display: grid; gap: 12px; justify-items: start; }
   .sys__kicker {
     font-size: 15px;
@@ -470,6 +504,11 @@ const nota = notes[0];
     color: var(--text);
     max-width: 52ch;
   }
+  .sys__addr {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
 
   /* contacto */
   .contacto {
@@ -477,7 +516,7 @@ const nota = notes[0];
     margin-inline: auto;
     display: grid;
     justify-items: center;
-    gap: 32px;
+    gap: 24px;
     text-align: center;
   }
   .contacto__sub {
@@ -486,7 +525,11 @@ const nota = notes[0];
     letter-spacing: -0.015em;
     color: var(--muted);
   }
-  .contacto__cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .contacto__recruiter {
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
   .contacto__links {
     display: flex;
     flex-wrap: wrap;
@@ -499,29 +542,41 @@ const nota = notes[0];
     padding-left: 0;
     list-style: none;
   }
-  .contacto__links li { display: flex; flex-direction: column; gap: 4px; }
-  .contacto__label { font-size: 13px; color: var(--muted); }
+  .contacto__links li { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+  .contacto__label { font-size: 14px; color: var(--muted); }
   .contacto__links a {
     font-weight: 500;
     font-size: 16px;
     color: var(--text);
     text-decoration: none;
+    padding: 8px 0;
     transition: color var(--fast) var(--ease);
   }
   .contacto__links a:hover { color: var(--color-electric); }
+  .contacto__copy {
+    border: 0;
+    background: transparent;
+    color: var(--color-electric);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 0;
+    position: relative;
+  }
 
   /* ------------------------------ responsive ------------------------------ */
 
   @media (max-width: 900px) {
-    .facetas, .principios { grid-template-columns: 1fr; gap: 28px; }
+    .facetas, .principios, .novedades { grid-template-columns: 1fr; gap: 28px; }
     .sys { grid-template-columns: 1fr; gap: 28px; }
+    .sys__logo img { width: min(220px, 65%); }
   }
   @media (max-width: 640px) {
     .hero { padding-top: 72px; padding-bottom: 64px; }
     .grid--2 { grid-template-columns: 1fr; }
-    .contacto__cta { flex-direction: column; width: 100%; }
-    .contacto__cta :global(.cta) { width: 100%; }
     .hero__actions { flex-direction: column; width: min(100%, 360px); }
     .hero__actions :global(.cta) { width: 100%; }
+    .manifiesto__texto br { display: none; }
   }
 </style>

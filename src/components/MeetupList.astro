@@ -8,12 +8,10 @@ import { meetups } from '../data/meetups';
     meetups.map((m) => (
       <article class="meet">
         <header class="meet__head">
-          {
-            m.logo && (
-              <img class="meet__logo" src={m.logo.src} alt={m.logo.alt} width="1024" height="125" />
-            )
-          }
           <p class="meet__meta">
+            {m.logo && (
+              <img class="meet__logo" src={m.logo.src} alt={m.logo.alt} width="1024" height="125" />
+            )}
             <time datetime={m.date}>{m.dateLabel}</time>
             <span aria-hidden="true"> · </span>
             {m.place}
@@ -58,8 +56,10 @@ import { meetups } from '../data/meetups';
       btn.addEventListener('click', () => {
         const src = btn.dataset.lightbox;
         if (!src) return;
+        const alt = btn.dataset.alt ?? '';
         img.src = src;
-        img.alt = btn.getAttribute('aria-label') ?? '';
+        img.alt = alt;
+        dialog.setAttribute('aria-label', alt || 'Foto');
         dialog.showModal();
       });
     });
@@ -83,21 +83,26 @@ import { meetups } from '../data/meetups';
     gap: 10px;
     max-width: 62ch;
   }
-  .meet__logo {
-    width: min(220px, 70%);
-    height: auto;
-    margin-bottom: 6px;
-  }
   .meet__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
     font-size: 15px;
     font-weight: 600;
-    color: var(--color-electric);
+    color: var(--muted);
+  }
+  .meet__logo {
+    width: auto;
+    height: 28px;
+    margin: 0;
   }
   .meet__title {
     font-weight: 700;
     font-size: clamp(26px, 3.6vw, 34px);
     line-height: 1.15;
     letter-spacing: -0.03em;
+    text-wrap: balance;
   }
   .meet__text {
     font-size: 17px;
@@ -110,7 +115,6 @@ import { meetups } from '../data/meetups';
     color: var(--faint);
   }
 
-  /* Vertical: se limita el ancho para que no ocupe media pantalla de alto. */
   .meet__video {
     margin: 0;
     display: grid;
@@ -152,5 +156,9 @@ import { meetups } from '../data/meetups';
     font: inherit;
     font-size: 15px;
     cursor: pointer;
+  }
+
+  @media (max-width: 640px) {
+    .meet__video video { width: min(200px, 100%); }
   }
 </style>

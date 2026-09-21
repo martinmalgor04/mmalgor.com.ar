@@ -3,6 +3,12 @@
     "collect": {
       "staticDistDir": "./dist",
       "numberOfRuns": 2,
+      "url": [
+        "http://localhost/",
+        "http://localhost/links",
+        "http://localhost/now",
+        "http://localhost/notas/profesionalizar-sys"
+      ],
       "settings": { "preset": "desktop" }
     },
     "assert": {

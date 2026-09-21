@@ -1,3 +1,6 @@
+import { fecha } from '../lib/dates';
+import { profile } from './profile';
+
 export interface Note {
   slug: string;
   title: string;
@@ -7,19 +10,21 @@ export interface Note {
   paragraphs: string[];
 }
 
+const date = '2026-09-20';
+
 export const notes: Note[] = [
   {
     slug: 'profesionalizar-sys',
     title: 'Estoy profesionalizando SyS',
     description:
-      'La empresa la fundó mi papá en 1993. Yo me incorporé a los 16 años, hace 7. Hoy me toca ordenar procesos, automatizar y armar el área comercial.',
-    date: '2026-09-20',
-    dateLabel: '20 de septiembre de 2026',
+      'Entré a los 16, en 2019. Ahora tomo las decisiones pesadas: ordenar procesos, automatizar lo que se repite y armar el área comercial.',
+    date,
+    dateLabel: fecha(date),
     paragraphs: [
-      'Servicios y Sistemas la fundó mi papá, Daniel Malgor. Estamos en Corrientes desde 1993 y yo me incorporé a los 16 años, hace 7. Segunda generación.',
-      'Durante mucho tiempo no tomaba las decisiones pesadas. Ahora sí, y lo que me toca es profesionalizar: ordenar procesos, automatizar lo que se repite y armar el área comercial. Con IA donde rinde, no por moda.',
-      'Soy Técnico Certificado Tango Elite, por primera vez. Es el sello con el que en SyS implementamos Tango en el NEA.',
-      'Lo que veo en las PYMES del NEA lo llevo al aula de la UTN, y lo que estudio lo pruebo acá. Si tu operación necesita Tango, una app a medida o automatizar algo, escribime.',
+      `Servicios y Sistemas la fundó mi papá, Daniel Malgor, en Corrientes, en ${profile.sys.founded}. Yo entré a los 16, en ${profile.joinedYear}. Empresa familiar, segunda generación.`,
+      'Durante años no tomaba las decisiones pesadas: precios, a quién contratar, qué dejar de hacer. Ahora sí. Lo primero que ordené fue lo que el equipo hacía a mano cada mes: reportes, seguimientos, recortes que se repetían igual. Con Tango donde alcanza y con una app a medida donde no.',
+      'El área comercial, que no existía como área, la estoy armando ahora. Soy Técnico Certificado Tango Elite: el sello es personal. El de SyS es Centro de Ventas y Servicios Certificado.',
+      'Lo que veo en las PYMES del NEA lo llevo al aula de la UTN, y lo que estudio lo pruebo acá.',
     ],
   },
 ];

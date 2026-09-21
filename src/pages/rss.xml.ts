@@ -1,28 +1,18 @@
 import type { APIRoute } from 'astro';
 import { profile } from '../data/profile';
 import { notes } from '../data/notes';
-import { now } from '../data/now';
 
 export const GET: APIRoute = ({ site }) => {
   const origin = site ?? new URL('https://mmalgor.com.ar');
-  const items = [
-    ...notes.map(
-      (n) => `    <item>
+  const items = notes.map(
+    (n) => `    <item>
       <title>${escapeXml(n.title)}</title>
       <link>${new URL(`/notas/${n.slug}`, origin)}</link>
       <guid>${new URL(`/notas/${n.slug}`, origin)}</guid>
       <pubDate>${new Date(n.date).toUTCString()}</pubDate>
       <description>${escapeXml(n.description)}</description>
     </item>`,
-    ),
-    `    <item>
-      <title>Ahora</title>
-      <link>${new URL('/now', origin)}</link>
-      <guid>${new URL('/now', origin)}</guid>
-      <pubDate>${new Date(now.updated).toUTCString()}</pubDate>
-      <description>${escapeXml(now.excerpt)}</description>
-    </item>`,
-  ];
+  );
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">

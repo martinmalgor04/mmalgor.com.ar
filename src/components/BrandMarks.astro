@@ -6,20 +6,30 @@ interface Props {
   featured?: boolean;
   /** Solo el sello, sin el listado de credenciales. */
   badgeOnly?: boolean;
+  /** Una línea de 14px con el sello inline. Para /links. */
+  line?: boolean;
 }
-const { compact = false, featured = false, badgeOnly = false } = Astro.props;
+const { compact = false, featured = false, badgeOnly = false, line = false } = Astro.props;
+const alt = badgeOnly ? profile.tango.partner : '';
 ---
 
-<div class:list={['marca', compact && 'marca--compact', featured && 'marca--featured']}>
+<div class:list={['marca', compact && 'marca--compact', featured && 'marca--featured', line && 'marca--line']}>
   <img
     class="marca__badge"
     src={profile.tango.badge}
-    width="512"
-    height="512"
-    alt={profile.tango.partner}
+    width="256"
+    height="256"
+    alt={alt}
   />
   {
-    !badgeOnly && (
+    line && (
+      <p class="marca__line">
+        {profile.tango.partner} · Ing. en Sistemas, {profile.utn.short}
+      </p>
+    )
+  }
+  {
+    !badgeOnly && !line && (
       <ul class="marca__list" role="list">
         {profile.marks.map((m) => (
           <li>
@@ -77,6 +87,21 @@ const { compact = false, featured = false, badgeOnly = false } = Astro.props;
   .marca--compact .marca__list strong { font-size: 14px; }
   .marca--compact .marca__list span { font-size: 12px; }
 
+  .marca--line {
+    gap: 10px;
+  }
+  .marca--line .marca__badge {
+    width: 40px;
+    height: 40px;
+    filter: none;
+  }
+  .marca__line {
+    font-size: 14px;
+    line-height: 1.35;
+    color: var(--muted);
+    text-wrap: balance;
+  }
+
   .marca--featured {
     flex-direction: column;
     text-align: center;
@@ -91,7 +116,7 @@ const { compact = false, featured = false, badgeOnly = false } = Astro.props;
   .marca--featured .marca__list span { font-size: 14px; }
 
   @media (max-width: 480px) {
-    .marca {
+    .marca:not(.marca--line) {
       flex-direction: column;
       text-align: center;
       gap: 14px;

@@ -5,15 +5,16 @@ interface Props {
   photos: MeetupPhoto[];
 }
 const { photos } = Astro.props;
+const even = photos.length === 4;
 ---
 
 {
   photos.length > 0 && (
-    <div class="gal">
+    <div class:list={['gal', even && 'gal--even']}>
       {
-        photos.map((photo, i) => (
-          <button class="shot" type="button" data-lightbox={photo.src} aria-label={photo.alt}>
-            <img src={photo.src} alt={photo.alt} loading={i < 2 ? 'eager' : 'lazy'} />
+        photos.map((photo) => (
+          <button class="shot" type="button" data-lightbox={photo.src} data-alt={photo.alt} aria-label={`Ampliar foto: ${photo.alt}`}>
+            <img src={photo.src} alt="" width="1200" height="900" loading="lazy" />
           </button>
         ))
       }
@@ -39,7 +40,7 @@ const { photos } = Astro.props;
     display: block;
     width: 100%;
   }
-  .gal .shot:first-child {
+  .gal:not(.gal--even) .shot:first-child {
     grid-column: 1 / -1;
     aspect-ratio: 16 / 10;
   }
@@ -49,11 +50,5 @@ const { photos } = Astro.props;
     object-fit: cover;
     object-position: center;
     display: block;
-  }
-
-  @media (max-width: 520px) {
-    .gal { grid-template-columns: 1fr; }
-    .gal .shot:first-child,
-    .shot { aspect-ratio: 4 / 3; }
   }
 </style>

@@ -4,7 +4,7 @@ import type { LinkItem } from '../data/links';
 
 /**
  * Fila compacta: ícono + título/sub + flecha.
- * kind=primary: azul eléctrico sólido con resplandor propio (el CTA principal).
+ * kind=primary: azul profundo sólido (contraste AA) con resplandor.
  * Si `copy` está, aparece un botón que copia el valor al portapapeles.
  */
 type Props = LinkItem;
@@ -31,13 +31,14 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
         </span>
       )
     }
+    {external && <span class="sr-only">(se abre en otra pestaña)</span>}
   </a>
 
   {
     copy && (
       <button class="tile__copy" type="button" data-copy={copy} aria-label={`Copiar ${copy}`}>
         <span class="tile__copy-icon" aria-hidden="true"><Icon name="lucide:copy" size={16} /></span>
-        <span class="tile__copied" aria-live="polite">Copiado</span>
+        <span class="tile__copied" role="status"></span>
       </button>
     )
   }
@@ -107,8 +108,8 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
 
   .tile__text {
     position: absolute;
-    left: 52px;
-    right: 52px;
+    left: 48px;
+    right: 48px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -125,10 +126,11 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
     letter-spacing: -0.02em;
   }
   .tile__sub {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 1.3;
     color: var(--muted);
     letter-spacing: -0.005em;
+    overflow-wrap: anywhere;
   }
 
   .tile__arrow {
@@ -143,9 +145,8 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
     transform: translate(2px, -2px);
   }
 
-  /* --- primary: resplandor propio, el "destello" de la marca --- */
   .tile--primary {
-    background: linear-gradient(160deg, var(--color-electric-hover), var(--color-electric) 60%, var(--color-electric-active));
+    background: var(--color-electric-deep);
     border-color: rgba(255, 255, 255, 0.18);
     color: var(--color-white);
     box-shadow: var(--shadow-md), var(--glow-electric);
@@ -157,21 +158,20 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
       transparent 44%
     );
   }
-  .tile--primary:hover { box-shadow: var(--shadow-lg), 0 0 90px rgba(33, 150, 243, 0.5); }
+  .tile--primary:hover { box-shadow: var(--shadow-lg), 0 0 90px rgba(0, 113, 227, 0.5); }
   .tile--primary .tile__icon { background: rgba(255, 255, 255, 0.18); color: var(--color-white); }
-  .tile--primary .tile__sub { color: rgba(255, 255, 255, 0.7); }
-  .tile--primary .tile__arrow { color: rgba(255, 255, 255, 0.6); }
+  .tile--primary .tile__sub { color: var(--color-white); }
+  .tile--primary .tile__arrow { color: var(--color-white); }
   .tile--primary:hover .tile__arrow { color: var(--color-white); }
 
-  /* --- copiar --- */
   .tile-wrap:has(.tile__copy) .tile { padding-right: 48px; }
   .tile__copy {
     position: absolute;
     right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     display: grid;
     place-items: center;
     border: 0;

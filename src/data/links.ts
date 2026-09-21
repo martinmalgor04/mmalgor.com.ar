@@ -33,8 +33,9 @@ export const links: LinkItem[] = [
   },
   {
     id: 'linkedin',
-    label: 'LinkedIn',
-    sub: 'Lo que veo en campo, cada semana',
+    label: 'Ver mi LinkedIn',
+    short: 'LinkedIn',
+    sub: 'Perfil profesional',
     href: profile.linkedin,
     icon: 'tabler:brand-linkedin',
     kind: 'glass',

@@ -3,6 +3,7 @@
   "type": "module",
   "version": "2.0.0",
   "private": true,
+  "packageManager": "pnpm@10.11.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -24,8 +25,12 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "playwright": "^1.63.0",
+    "playwright-core": "^1.63.0",
+    "sharp": "^0.34.5",
     "typescript": "^6.0.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp"]
   },
   "engines": {
     "node": ">=22.12"

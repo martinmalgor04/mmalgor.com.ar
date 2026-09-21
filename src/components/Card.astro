@@ -1,32 +1,52 @@
 ---
 import { Icon } from 'astro-icon/components';
 
-/** Card gris elevada sobre negro, radio grande, ícono en tile con acento eléctrico. */
+/** Card gris elevada sobre negro. Si hay href, es un link a WhatsApp por tema. */
 interface Props {
   title: string;
   icon?: string;
-  num?: string;
+  href?: string;
+  event?: string;
 }
-const { title, icon, num } = Astro.props;
+const { title, icon, href, event } = Astro.props;
+const Tag = href ? 'a' : 'article';
 ---
 
-<article class="card" data-reveal>
+<Tag
+  class="card"
+  data-reveal
+  href={href}
+  target={href ? '_blank' : undefined}
+  rel={href ? 'noopener' : undefined}
+  data-umami-event={event}
+>
   {icon && <span class="card__icon" aria-hidden="true"><Icon name={icon} size={22} /></span>}
-  {num && <span class="card__num" aria-hidden="true">{num}</span>}
-  <h3 class="card__title">{title}</h3>
-  <p class="card__text"><slot /></p>
-</article>
+  <span class="card__body">
+    <h3 class="card__title">{title}</h3>
+    <p class="card__text"><slot /></p>
+  </span>
+  {href && (
+    <span class="card__go" aria-hidden="true">
+      <Icon name="lucide:arrow-up-right" size={16} />
+    </span>
+  )}
+  {href && <span class="sr-only">(se abre en otra pestaña)</span>}
+</Tag>
 
 <style>
   .card {
+    position: relative;
+    display: block;
     padding: 30px 28px;
     border-radius: var(--radius-card);
     background: var(--surface);
     border: 1px solid var(--hairline);
     box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: inherit;
     transition: transform var(--base) var(--ease), box-shadow var(--base) var(--ease), border-color var(--base) var(--ease);
   }
-  .card:hover {
+  a.card:hover {
     transform: translateY(-2px);
     border-color: rgba(162, 198, 212, 0.28);
     box-shadow: var(--shadow-md), 0 0 46px rgba(33, 150, 243, 0.1);
@@ -43,16 +63,6 @@ const { title, icon, num } = Astro.props;
     box-shadow: 0 0 22px rgba(33, 150, 243, 0.18);
     margin-bottom: 22px;
   }
-  .card__num {
-    display: block;
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.02em;
-    color: var(--color-electric);
-    text-shadow: 0 0 20px rgba(33, 150, 243, 0.4);
-    font-variant-numeric: tabular-nums;
-    margin-bottom: 18px;
-  }
   .card__title {
     font-weight: 600;
     font-size: 21px;
@@ -65,5 +75,30 @@ const { title, icon, num } = Astro.props;
     font-size: 16px;
     line-height: 1.5;
     color: var(--muted);
+  }
+  .card__go {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    color: var(--faint);
+  }
+  a.card:hover .card__go { color: var(--color-electric); }
+
+  @media (max-width: 640px) {
+    .card {
+      display: grid;
+      grid-template-columns: 40px 1fr auto;
+      align-items: start;
+      column-gap: 14px;
+      padding: 22px 20px;
+    }
+    .card__icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 0;
+      grid-row: 1 / 3;
+    }
+    .card__body { grid-column: 2; }
+    .card__go { position: static; }
   }
 </style>

@@ -1,0 +1,50 @@
+---
+import { Icon } from 'astro-icon/components';
+import { profile, whatsappHref } from '../data/profile';
+
+interface Props {
+  waEvent: string;
+  liEvent?: string;
+  nowLink?: boolean;
+  vcard?: boolean;
+}
+const { waEvent, liEvent, nowLink = false, vcard = false } = Astro.props;
+---
+
+<div class="ccta">
+  <a class="cta cta--primary" href={whatsappHref} target="_blank" rel="noopener" data-umami-event={waEvent}>
+    <Icon name="tabler:brand-whatsapp" size={18} aria-hidden="true" />
+    Escribime por WhatsApp
+    <span class="sr-only">(se abre en otra pestaña)</span>
+  </a>
+  {liEvent && (
+    <a class="cta cta--secondary" href={profile.linkedin} target="_blank" rel="me noopener" data-umami-event={liEvent}>
+      Ver mi LinkedIn
+      <span class="sr-only">(se abre en otra pestaña)</span>
+    </a>
+  )}
+  {vcard && (
+    <a class="cta cta--secondary" href={profile.vcard} download data-umami-event="download-vcard-contacto">
+      Guardar contacto (vCard)
+    </a>
+  )}
+  {nowLink && (
+    <a class="cta cta--link" href="/now" data-umami-event="click-now-nota">
+      Qué estoy haciendo ahora
+      <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
+    </a>
+  )}
+</div>
+
+<style>
+  .ccta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  @media (max-width: 640px) {
+    .ccta { flex-direction: column; }
+    .ccta :global(.cta:not(.cta--link)) { width: 100%; }
+  }
+</style>
