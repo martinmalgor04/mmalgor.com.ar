@@ -50,6 +50,8 @@ export default defineConfig({
         "default-src 'self'",
         "connect-src 'self' https://cloud.umami.is https://api-gateway.umami.dev",
         "img-src 'self' data: https://serviciosysistemas.com.ar https://pub-9195f8a94602486395419c2bb7beab6b.r2.dev",
+        // El video de los meetups sale del CDN; sin esto cae en default-src 'self'.
+        "media-src 'self' https://pub-9195f8a94602486395419c2bb7beab6b.r2.dev",
         "object-src 'none'",
         "base-uri 'self'",
         "form-action 'self'",

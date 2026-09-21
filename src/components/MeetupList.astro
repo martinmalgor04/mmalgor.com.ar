@@ -23,6 +23,21 @@ import { meetups } from '../data/meetups';
           {m.credit && <p class="meet__credit">{m.credit}</p>}
         </header>
         {m.photos.length > 0 && <MeetupGallery photos={m.photos} />}
+        {
+          m.video && (
+            <figure class="meet__video">
+              <video
+                src={m.video.src}
+                poster={m.video.poster}
+                controls
+                playsinline
+                preload="none"
+                aria-label={m.video.label}
+              />
+              <figcaption>{m.video.label}</figcaption>
+            </figure>
+          )
+        }
       </article>
     ))
   }
@@ -93,6 +108,27 @@ import { meetups } from '../data/meetups';
     font-size: 15px;
     line-height: 1.45;
     color: var(--faint);
+  }
+
+  /* Vertical: se limita el ancho para que no ocupe media pantalla de alto. */
+  .meet__video {
+    margin: 0;
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+  }
+  .meet__video video {
+    width: min(300px, 100%);
+    aspect-ratio: 9 / 16;
+    border-radius: 16px;
+    background: var(--color-black);
+    display: block;
+  }
+  .meet__video figcaption {
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--faint);
+    max-width: 44ch;
   }
 
   .lb {
