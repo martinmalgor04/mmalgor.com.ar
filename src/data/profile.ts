@@ -24,11 +24,12 @@ export const profile = {
    * esto es la ficha: quién, dónde, qué. No es frase de venta.
    */
   identity: {
-    line: 'Director de operaciones en Servicios y Sistemas · Técnico Certificado Tango Elite · Corrientes, Argentina',
+    line: 'Director de operaciones en Servicios y Sistemas · Técnico Certificado Tango Elite · Embajador de SpaceX AI · Corrientes, Argentina',
     /** El punto medio va adentro de cada span para que no quede «Argentina» sola. */
     parts: [
       'Director de operaciones en Servicios y Sistemas ·',
       'Técnico Certificado Tango Elite ·',
+      'Embajador de SpaceX AI ·',
       'Corrientes, Argentina',
     ],
     answer:

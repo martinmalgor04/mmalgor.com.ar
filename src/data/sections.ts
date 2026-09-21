@@ -9,8 +9,7 @@ interface Faceta {
 }
 
 export const queHago = {
-  eyebrow: 'Qué hago',
-  title: 'En qué puedo ayudarte.',
+  title: 'Qué hago.',
   items: [
     {
       icon: 'lucide:layers',
@@ -83,12 +82,12 @@ export const manifiesto = {
       text: 'El sistema instalado no sirve si nadie lo usa bien. Me quedo hasta que tu equipo trabaja distinto.',
     },
     {
-      title: 'Un solo responsable.',
-      text: 'Cuando cada parte la atiende un proveedor distinto, el problema nunca es de nadie. Conmigo hay un solo número al que llamar.',
+      title: 'Un solo responsable: yo.',
+      text: 'Cuando cada parte la atiende un proveedor distinto, el problema nunca es de nadie. Me llamás a mí.',
     },
     {
-      title: 'Trabajo en una PYME del NEA.',
-      text: 'Sé cómo se cobra, se factura y se pagan sueldos acá, porque SyS lo hace todos los meses y yo estoy adentro.',
+      title: 'No te hablo de oídas.',
+      text: 'Facturación, cobranzas y sueldos los veo todos los meses en SyS. Lo que te propongo, lo uso.',
     },
   ],
 };
@@ -119,5 +118,5 @@ export const meetupsSection = {
 
 export const novedades = {
   eyebrow: 'Novedades',
-  title: 'Ahora y lo que escribí.',
+  title: 'Lo último.',
 };

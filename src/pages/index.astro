@@ -50,7 +50,7 @@ const nota = notes[0];
   </section>
 
   <!-- ═══════════════════ QUÉ HAGO ═══════════════════ -->
-  <Section id="que-hago" tone="white" kicker={queHago.eyebrow} title={queHago.title}>
+  <Section id="que-hago" tone="white" title={queHago.title}>
     <div class="grid grid--2">
       {queHago.items.map((c) => (
         <Card title={c.title} icon={c.icon} href={c.href} event={c.event}>{c.text}</Card>
@@ -91,7 +91,8 @@ const nota = notes[0];
   </Section>
 
   <!-- ═══════════════════ CÓMO PIENSO ═══════════════════ -->
-  <Section id="como-pienso" tone="think" kicker="Cómo pienso" class="manifiesto">
+  <Section id="como-pienso" tone="think" class="manifiesto">
+    <h2 class="sr-only">Cómo pienso</h2>
     <p class="manifiesto__texto">
       {words(manifiesto.lines[0]).map((w) => <span class="word">{w}</span>)}
       <br />
@@ -114,19 +115,39 @@ const nota = notes[0];
     </div>
   </Section>
 
+  <!-- ═══════════════════ SyS ═══════════════════ -->
+  <Section id="sys" tone="gray" title={sys.title} compact>
+    <div class="sys" data-reveal>
+      <div class="sys__logo">
+        <img src={profile.sys.logo} width="720" height="87" alt="" />
+      </div>
+      <div class="sys__body">
+        <p class="sys__kicker">{sys.eyebrow}</p>
+        <p class="sys__copy">{sys.text}</p>
+        <p class="sys__addr">{sys.addressLine}</p>
+        <a class="cta cta--link" href={profile.sys.url} target="_blank" rel="noopener" data-umami-event="click-sys-section">
+          {sys.cta}
+          <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
+          <span class="sr-only">(se abre en otra pestaña)</span>
+        </a>
+      </div>
+    </div>
+  </Section>
+
   <!-- ═══════════════════ MEETUPS ═══════════════════ -->
-  <Section id="meetups" tone="gray" kicker={meetupsSection.eyebrow} title={meetupsSection.title}>
+  <Section id="meetups" tone="white" kicker={meetupsSection.eyebrow} title={meetupsSection.title}>
     <p class="meetups__lead" data-reveal>{meetupsSection.lead}</p>
     <MeetupList />
   </Section>
 
   <!-- ═══════════════════ NOVEDADES ═══════════════════ -->
-  <Section id="ahora" tone="white" kicker={novedades.eyebrow} title={novedades.title} compact>
+  <Section id="ahora" tone="gray" kicker={novedades.eyebrow} title={novedades.title} compact>
     <div class="novedades">
       <article class="entrada">
         <p class="entrada__kicker">
           Ahora · <time datetime={now.updated}>{now.updatedLabel}</time>
         </p>
+        <h3 class="entrada__title">{now.title}</h3>
         <p class="entrada__text">{now.excerpt}</p>
         <a class="cta cta--link" href="/now" data-umami-event="click-now-home">
           Qué estoy haciendo ahora
@@ -151,31 +172,12 @@ const nota = notes[0];
     </div>
   </Section>
 
-  <!-- ═══════════════════ SyS ═══════════════════ -->
-  <Section id="sys" tone="gray" title={sys.title} compact>
-    <div class="sys" data-reveal>
-      <div class="sys__logo">
-        <img src={profile.sys.logo} width="720" height="87" alt="" />
-      </div>
-      <div class="sys__body">
-        <p class="sys__kicker">{sys.eyebrow}</p>
-        <p class="sys__copy">{sys.text}</p>
-        <p class="sys__addr">{sys.addressLine}</p>
-        <a class="cta cta--link" href={profile.sys.url} target="_blank" rel="noopener" data-umami-event="click-sys-section">
-          {sys.cta}
-          <Icon name="lucide:chevron-right" size={18} aria-hidden="true" />
-          <span class="sr-only">(se abre en otra pestaña)</span>
-        </a>
-      </div>
-    </div>
-  </Section>
-
   <!-- ═══════════════════ CONTACTO ═══════════════════ -->
   <Section id="contacto" tone="white" title={contacto.title} center>
     <div class="contacto">
       <p class="contacto__sub" data-reveal>{contacto.text}</p>
-      <div data-reveal>
-        <ContactCtas waEvent="click-whatsapp-contacto" liEvent="click-linkedin-contacto" vcard />
+      <div class="contacto__ctas" data-reveal>
+        <ContactCtas waEvent="click-whatsapp-contacto" liEvent="click-linkedin-contacto" vcard center />
       </div>
       <p class="contacto__recruiter" data-reveal>{contacto.recruiter}</p>
       <ul class="contacto__links" role="list" data-reveal>
@@ -519,6 +521,7 @@ const nota = notes[0];
     gap: 24px;
     text-align: center;
   }
+  .contacto__ctas { width: 100%; }
   .contacto__sub {
     font-size: clamp(18px, 2.2vw, 21px);
     line-height: 1.45;

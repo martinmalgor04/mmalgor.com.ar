@@ -7,11 +7,12 @@ interface Props {
   liEvent?: string;
   nowLink?: boolean;
   vcard?: boolean;
+  center?: boolean;
 }
-const { waEvent, liEvent, nowLink = false, vcard = false } = Astro.props;
+const { waEvent, liEvent, nowLink = false, vcard = false, center = false } = Astro.props;
 ---
 
-<div class="ccta">
+<div class:list={['ccta', center && 'ccta--center']}>
   <a class="cta cta--primary" href={whatsappHref} target="_blank" rel="noopener" data-umami-event={waEvent}>
     <Icon name="tabler:brand-whatsapp" size={18} aria-hidden="true" />
     Escribime por WhatsApp
@@ -42,6 +43,11 @@ const { waEvent, liEvent, nowLink = false, vcard = false } = Astro.props;
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 32px;
+  }
+  .ccta--center {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0;
   }
   @media (max-width: 640px) {
     .ccta { flex-direction: column; }

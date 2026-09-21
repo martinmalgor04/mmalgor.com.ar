@@ -42,7 +42,7 @@ export const meetups: Meetup[] = [
     date: '2026-09-16',
     dateLabel: fecha('2026-09-16'),
     place: 'Corrientes',
-    text: 'La primera Grok Bot Meetup de Corrientes. Workshop con Tobías Insaurralde: Grok Bot Galaxy, cómo pasar un agente a producción, y un panel de preguntas. Cerramos con pizza.',
+    text: 'La primera Grok Bot Meetup de Corrientes. Workshop con Tobías Insaurralde: Grok Bot Galaxy, cómo pasar un agente a producción, y un panel de preguntas. El equipo de Tero App contó cómo construyen Tero, y los de Fondare App hicieron lo mismo. Cerramos con pizza.',
     logo: spacexLogo,
     photos: [
       {
@@ -69,9 +69,9 @@ export const meetups: Meetup[] = [
     video: {
       src: `${CDN}/grok-bot-2026/grok-bot-meetup.mp4`,
       poster: `${CDN}/grok-bot-2026/grok-bot-meetup-poster.jpg`,
-      label: 'Un rato del workshop de Grok Bot, en Corrientes. El clip tiene habla y todavía no tiene subtítulos.',
+      label: 'Un rato del workshop de Grok Bot, en Corrientes.',
     },
-    credit: 'Organizada con Tobías Insaurralde.',
+    credit: 'Organizada junto con Tobías.',
   },
   {
     id: 'cursor-resistencia-2025',
