@@ -66,16 +66,25 @@ export const manifiesto = {
   lines: ['La tecnología sin responsables es un gasto.', 'Con responsables, es la', 'más barata que puede comprar una PYME.'],
   highlight: 'ventaja competitiva',
   principios: [
-    { title: 'Procesos antes que software.', text: 'El ERP acelera lo que ya hay. Si el proceso es malo, lo acelera mal.' },
-    { title: 'Integral de verdad.', text: 'Tecnología fragmentada = nadie es responsable cuando algo rompe.' },
-    { title: 'Cerca del negocio.', text: 'Trabajo en el NEA, con empresas del NEA, en el idioma del NEA.' },
+    {
+      title: 'No termina en la venta.',
+      text: 'El sistema instalado no sirve de nada si nadie lo usa bien. Nos quedamos hasta que tu equipo trabaja distinto.',
+    },
+    {
+      title: 'Un solo responsable.',
+      text: 'Cuando cada parte la atiende un proveedor distinto, el problema nunca es de nadie. Con nosotros hay un solo número al que llamar.',
+    },
+    {
+      title: 'Somos una PYME del NEA.',
+      text: 'Sabemos cómo se cobra, se factura y se pagan sueldos acá, porque lo hacemos nosotros todos los meses.',
+    },
   ],
 };
 
 export const sys = {
   eyebrow: 'Servicios y Sistemas',
   title: 'Servicios y Sistemas.',
-  text: 'Desde 1993 en Corrientes. Centro de Ventas y Servicios Certificado de Tango Software, partner de HPE, Lenovo, Dell y Sophos.',
+  text: 'Desde 1993 en Corrientes. Centro de Ventas y Servicios Certificado Tango Software, partner de HPE, Lenovo, Dell y Sophos.',
   cta: 'Conocé SyS',
 };
 

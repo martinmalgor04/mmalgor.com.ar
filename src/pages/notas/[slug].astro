@@ -2,6 +2,8 @@
 import { Icon } from 'astro-icon/components';
 import Base from '../../layouts/Base.astro';
 import { noteBySlug } from '../../data/notes';
+import { profile } from '../../data/profile';
+import { jsonLdArticle } from '../../lib/seo';
 
 export function getStaticPaths() {
   return Object.keys(noteBySlug).map((slug) => ({ params: { slug } }));
@@ -12,18 +14,28 @@ const note = noteBySlug[slug ?? ''];
 if (!note) throw new Error(`Nota no encontrada: ${slug}`);
 ---
 
-<Base title={`${note.title} — Martín Malgor`} description={note.description}>
-  <article class="page">
+<Base
+  title={`${note.title} — ${profile.name}`}
+  description={note.description}
+  ogType="article"
+  jsonLd={jsonLdArticle(note)}
+  published={note.date}
+  modified={note.date}
+>
+  <article class="page" itemscope itemtype="https://schema.org/BlogPosting">
     <div class="container page__inner">
       <a class="page__back" href="/" data-umami-event="click-nota-home">
         <Icon name="lucide:arrow-left" size={16} />
         Sitio
       </a>
       <p class="page__kicker">
-        Nota · <time datetime={note.date}>{note.dateLabel}</time>
+        Nota · <time datetime={note.date} itemprop="datePublished">{note.dateLabel}</time>
       </p>
-      <h1 class="page__title">{note.title}</h1>
-      <div class="page__body">
+      <h1 class="page__title" itemprop="headline">{note.title}</h1>
+      <p class="page__byline">
+        <a href="/" rel="author" itemprop="author">{profile.name}</a>
+      </p>
+      <div class="page__body" itemprop="articleBody">
         {note.paragraphs.map((p) => <p>{p}</p>)}
       </div>
     </div>
@@ -58,8 +70,18 @@ if (!note) throw new Error(`Nota no encontrada: ${slug}`);
     font-size: clamp(36px, 6vw, 52px);
     line-height: 1.08;
     letter-spacing: -0.04em;
-    margin-bottom: 32px;
+    margin-bottom: 12px;
   }
+  .page__byline {
+    margin-bottom: 32px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .page__byline a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .page__byline a:hover { color: var(--text); }
   .page__body { display: grid; gap: 20px; }
   .page__body p {
     font-size: clamp(18px, 2.2vw, 21px);

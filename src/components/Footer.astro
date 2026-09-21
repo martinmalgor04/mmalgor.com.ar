@@ -1,6 +1,9 @@
 ---
 import { profile } from '../data/profile';
 import { links } from '../data/links';
+import { notes } from '../data/notes';
+
+const nota = notes[0];
 ---
 
 <footer class="footer">
@@ -23,6 +26,9 @@ import { links } from '../data/links';
         Instagram
       </a>
       <a href="/now" data-umami-event="click-now-footer">Ahora</a>
+      {nota && (
+        <a href={`/notas/${nota.slug}`} data-umami-event="click-nota-footer">Nota</a>
+      )}
       <a href="/links" data-umami-event="click-links-footer">Links</a>
       <a href="/rss.xml" data-umami-event="click-rss-footer">RSS</a>
       <a href="/martin-malgor.vcf" download data-umami-event="download-vcard-footer">Guardar contacto</a>

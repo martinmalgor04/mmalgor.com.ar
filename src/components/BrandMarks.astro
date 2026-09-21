@@ -16,7 +16,7 @@ const { compact = false, featured = false, badgeOnly = false } = Astro.props;
     src={profile.tango.badge}
     width="512"
     height="512"
-    alt="Partner Elite de Tango Software"
+    alt={profile.tango.partner}
   />
   {
     !badgeOnly && (

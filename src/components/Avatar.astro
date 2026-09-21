@@ -8,10 +8,10 @@ const { initials, alt, src } = Astro.props;
 ---
 
 <div class="avatar-wrap">
-  <div class="avatar" role="img" aria-label={alt}>
+<div class="avatar" role={src ? undefined : 'img'} aria-label={src ? undefined : alt}>
     {
       src ? (
-        <img src={src} width="224" height="224" alt="" loading="eager" fetchpriority="high" />
+        <img src={src} width="224" height="224" alt={alt} loading="eager" fetchpriority="high" />
       ) : (
         <span class="avatar__initials" aria-hidden="true">{initials}</span>
       )

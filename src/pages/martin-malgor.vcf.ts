@@ -22,7 +22,7 @@ const lines = [
   `ADR;TYPE=work:;;${a.street};${a.city};${a.region};${a.postalCode};${a.country}`,
   `X-SOCIALPROFILE;TYPE=linkedin:${profile.linkedin}`,
   `X-SOCIALPROFILE;TYPE=instagram:${profile.instagram}`,
-  `NOTE:${profile.bio} ${profile.tagline}`,
+  `NOTE:${profile.identity.answer}`,
   'KIND:individual',
   'END:VCARD',
 ];

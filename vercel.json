@@ -1,0 +1,15 @@
+{
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/about", "destination": "/", "permanent": true },
+    { "source": "/bio", "destination": "/", "permanent": true },
+    { "source": "/martin-malgor", "destination": "/", "permanent": true },
+    { "source": "/contacto", "destination": "/", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/martin-malgor.vcf",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    }
+  ]
+}

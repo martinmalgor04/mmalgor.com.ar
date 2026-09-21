@@ -7,15 +7,33 @@ export const profile = {
   givenName: 'Martín',
   familyName: 'Malgor',
   initials: 'MM',
+  /** Búsquedas y IAs suelen omitir la tilde. */
+  alternateName: ['Martin Malgor', 'Martín M. Malgor'],
   role: 'Director de operaciones en Servicios y Sistemas',
   jobTitle: 'Director de operaciones',
   tagline: 'Traduzco tecnología a decisiones de negocio.',
-  bio: 'Segunda generación en Servicios y Sistemas. Partner Elite de Tango. Estudio Ingeniería en Sistemas.',
+  bio: 'Segunda generación en Servicios y Sistemas. Técnico Certificado Tango Elite. Estudio Ingeniería en Sistemas.',
   location: 'Corrientes, Argentina',
+  nationality: 'Argentina',
+  languages: ['es-AR'],
+  photo: '/martin-malgor.jpg',
+
+  /**
+   * Respuestas fácticas para buscadores e IAs. El tagline es marca;
+   * esto es la ficha: quién, dónde, qué.
+   */
+  identity: {
+    line: 'Director de operaciones en Servicios y Sistemas · Técnico Certificado Tango Elite · Corrientes, Argentina',
+    answer:
+      'Martín Malgor es director de operaciones de Servicios y Sistemas en Corrientes, Argentina. Es Técnico Certificado Tango Elite, SpaceX AI Ambassador y cursa 4.º año de Ingeniería en Sistemas en la UTN Facultad Regional Resistencia. Trabaja con PYMES del NEA en ERP Tango, desarrollo a medida, automatización e infraestructura IT.',
+  },
 
   tango: {
     label: 'Tango Elite',
-    partner: 'Partner Elite de Tango Software',
+    /** Certificación de la persona. La empresa es Centro de Ventas y Servicios Certificado. */
+    partner: 'Técnico Certificado Tango Elite',
+    /** Categoría de SyS como canal de Tango Software. */
+    centro: 'Centro de Ventas y Servicios Certificado Tango Software',
     badge: 'https://pub-9195f8a94602486395419c2bb7beab6b.r2.dev/partners/tango-elite.png',
   },
 
@@ -60,10 +78,10 @@ export const profile = {
   },
 
   seo: {
-    title: 'Martín Malgor — Partner Elite de Tango',
+    title: 'Martín Malgor — Técnico Certificado Tango Elite, Corrientes',
     description:
-      'Partner Elite de Tango. Dirijo operaciones en Servicios y Sistemas, Corrientes. ERP, apps a medida y automatización para PYMES del NEA.',
-    ogAlt: 'Martín Malgor — Partner Elite de Tango. Servicios y Sistemas.',
+      'Martín Malgor (Martin Malgor) dirige operaciones en Servicios y Sistemas, Corrientes. Técnico Certificado Tango Elite, SpaceX AI Ambassador y estudiante de Ingeniería en Sistemas en la UTN FRRe. ERP, apps a medida y automatización para PYMES del NEA.',
+    ogAlt: 'Martín Malgor — Técnico Certificado Tango Elite. Servicios y Sistemas, Corrientes.',
   },
 
   stats: [
@@ -74,10 +92,15 @@ export const profile = {
 
   knowsAbout: [
     'ERP Tango',
+    'Tango Software',
     'Desarrollo a medida',
     'Automatización e inteligencia artificial aplicada',
     'Estrategia IT',
     'Infraestructura IT',
+    'Ciberseguridad para PYMES',
+    'SpaceX AI',
+    'Cursor',
+    'Grok Bot',
   ],
 } as const;
 

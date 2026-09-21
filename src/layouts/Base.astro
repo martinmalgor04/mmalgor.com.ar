@@ -3,66 +3,45 @@ import '../styles/global.css';
 import { profile } from '../data/profile';
 import StickyHeader from '../components/StickyHeader.astro';
 import Footer from '../components/Footer.astro';
+import { abs, jsonLdProfile, jsonLdWebPage, sameAs } from '../lib/seo';
 
 interface Props {
   title?: string;
   description?: string;
   /** minimal: sin header sticky. Para el linktree de /links. */
   chrome?: 'full' | 'minimal';
+  ogType?: 'profile' | 'website' | 'article';
+  jsonLd?: Record<string, unknown>;
+  published?: string;
+  modified?: string;
+  markdownPath?: string | null;
+  noindex?: boolean;
 }
 
-const { title = profile.seo.title, description = profile.seo.description, chrome = 'full' } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/og.png', Astro.site);
-const umamiId = import.meta.env.PUBLIC_UMAMI_ID as string | undefined;
-const a = profile.sys.address;
+const {
+  title = profile.seo.title,
+  description = profile.seo.description,
+  chrome = 'full',
+  ogType = Astro.url.pathname === '/' ? 'profile' : 'website',
+  jsonLd,
+  published,
+  modified,
+  markdownPath = Astro.url.pathname === '/' ? '/index.md' : `${Astro.url.pathname}.md`,
+  noindex = false,
+} = Astro.props;
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'ProfilePage',
-  '@id': `${Astro.site}#profile`,
-  url: String(Astro.site),
-  name: title,
-  description,
-  inLanguage: 'es-AR',
-  mainEntity: {
-    '@type': 'Person',
-    '@id': `${Astro.site}#martin-malgor`,
-    name: profile.name,
-    givenName: profile.givenName,
-    familyName: profile.familyName,
-    jobTitle: profile.jobTitle,
-    description,
-    award: profile.tango.partner,
-    url: String(Astro.site),
-    email: profile.email,
-    telephone: profile.whatsapp.tel,
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: a.city,
-      addressRegion: a.region,
-      addressCountry: a.country,
-    },
-    worksFor: {
-      '@type': 'Organization',
-      name: profile.sys.legal,
-      alternateName: profile.sys.short,
-      url: profile.sys.url,
-      telephone: profile.sys.phone,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: a.street,
-        addressLocality: a.city,
-        addressRegion: a.region,
-        postalCode: a.postalCode,
-        addressCountry: a.country,
-      },
-    },
-    alumniOf: { '@type': 'CollegeOrUniversity', name: profile.utn.name, url: profile.utn.url },
-    knowsAbout: profile.knowsAbout,
-    sameAs: [profile.linkedin, profile.instagram, profile.sys.url],
-  },
-};
+const canonical = abs(Astro.url.pathname);
+const ogImage = abs('/og.png');
+const umamiId = import.meta.env.PUBLIC_UMAMI_ID as string | undefined;
+const markdownHref = markdownPath ? abs(markdownPath) : null;
+const robots = noindex
+  ? 'noindex, follow'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+const graph =
+  jsonLd ??
+  (Astro.url.pathname === '/'
+    ? jsonLdProfile()
+    : jsonLdWebPage({ path: Astro.url.pathname, title, description, dateModified: modified }));
 ---
 
 <!doctype html>
@@ -76,9 +55,20 @@ const jsonLd = {
     <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#000000" />
     <meta name="author" content={profile.name} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robots} />
+    <meta name="googlebot" content={robots} />
+    <meta name="geo.region" content="AR-W" />
+    <meta name="geo.placename" content={profile.sys.address.city} />
 
-    <meta property="og:type" content="profile" />
+    <link rel="alternate" hreflang="es-AR" href={canonical} />
+    <link rel="alternate" hreflang="es" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+    {markdownHref && <link rel="alternate" type="text/markdown" href={markdownHref} />}
+    <link rel="describedby" href={abs('/llms.txt')} />
+    <link rel="author" href={abs('/')} />
+    {sameAs.map((href) => <link rel="me" href={href} />)}
+
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="es_AR" />
     <meta property="og:site_name" content={profile.name} />
     <meta property="og:title" content={title} />
@@ -88,10 +78,21 @@ const jsonLd = {
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={profile.seo.ogAlt} />
+    {ogType === 'profile' && (
+      <>
+        <meta property="profile:first_name" content={profile.givenName} />
+        <meta property="profile:last_name" content={profile.familyName} />
+      </>
+    )}
+    {published && <meta property="article:published_time" content={published} />}
+    {modified && <meta property="article:modified_time" content={modified} />}
+    {ogType === 'article' && <meta property="article:author" content={profile.name} />}
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={profile.seo.ogAlt} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
@@ -99,7 +100,7 @@ const jsonLd = {
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title={profile.name} href="/rss.xml" />
 
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(graph)} />
 
     {
       import.meta.env.PROD && umamiId && (

@@ -25,6 +25,7 @@ const nota = notes[0];
 
       <h1 class="hero__name" data-rise>{profile.name}</h1>
       <p class="hero__tagline" data-rise>{profile.tagline}</p>
+      <p class="hero__identity" data-rise>{profile.identity.line}</p>
 
       <div class="hero__actions" data-rise>
         <a class="cta cta--primary" href={whatsappHref} target="_blank" rel="noopener" data-umami-event="click-whatsapp-home">
@@ -95,7 +96,7 @@ const nota = notes[0];
 
   <!-- ═══════════════════ CÓMO PIENSO ═══════════════════ -->
   <Section id="como-pienso" tone="navy" class="manifiesto">
-    <h2 class="sr-only">Cómo pienso</h2>
+    <h2 class="sr-only">Cómo trabajamos</h2>
     <p class="manifiesto__texto" data-split>
       {manifiesto.lines[0]}<br />
       {manifiesto.lines[1]} <span class="highlight">{manifiesto.highlight}</span><br />
@@ -182,6 +183,7 @@ const nota = notes[0];
       </ul>
     </div>
   </Section>
+
 </Base>
 
 <style>
@@ -249,6 +251,7 @@ const nota = notes[0];
   .hero__inner > :nth-child(3) { --i: 2; }
   .hero__inner > :nth-child(4) { --i: 3; }
   .hero__inner > :nth-child(5) { --i: 4; }
+  .hero__inner > :nth-child(6) { --i: 5; }
 
   @keyframes aurora {
     0%, 100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
@@ -272,6 +275,14 @@ const nota = notes[0];
     letter-spacing: -0.02em;
     color: var(--muted);
     max-width: 22ch;
+  }
+  .hero__identity {
+    margin-top: 14px;
+    font-size: 15px;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    color: var(--faint);
+    max-width: 38ch;
   }
 
   .hero__actions {
