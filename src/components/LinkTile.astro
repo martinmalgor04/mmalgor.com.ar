@@ -3,8 +3,7 @@ import { Icon } from 'astro-icon/components';
 import type { LinkItem } from '../data/links';
 
 /**
- * Tile gris elevado sobre negro (estilo tarjeta de apple.com en modo oscuro):
- * ícono arriba a la izquierda, título + sub, flecha abajo a la derecha.
+ * Fila compacta: ícono + título/sub + flecha.
  * kind=primary: azul eléctrico sólido con resplandor propio (el CTA principal).
  * Si `copy` está, aparece un botón que copia el valor al portapapeles.
  */
@@ -20,7 +19,7 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
     target={external ? '_blank' : undefined}
     data-umami-event={event}
   >
-    <span class="tile__icon" aria-hidden="true"><Icon name={icon} size={22} /></span>
+    <span class="tile__icon" aria-hidden="true"><Icon name={icon} size={20} /></span>
     <span class="tile__text">
       <span class="tile__label">{label}</span>
       {sub && <span class="tile__sub">{sub}</span>}
@@ -28,7 +27,7 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
     {
       !copy && (
         <span class="tile__arrow" aria-hidden="true">
-          <Icon name="lucide:arrow-up-right" size={20} />
+          <Icon name="lucide:arrow-up-right" size={16} />
         </span>
       )
     }
@@ -45,17 +44,20 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
 </div>
 
 <style>
-  .tile-wrap { position: relative; }
+  .tile-wrap {
+    position: relative;
+    perspective: 900px;
+  }
 
   .tile {
     position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 22px;
-    min-height: 168px;
-    padding: 22px;
-    border-radius: var(--radius-tile);
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    min-height: 72px;
+    padding: 12px 16px;
+    border-radius: 16px;
     background: var(--surface);
     border: 1px solid var(--hairline);
     color: var(--text);
@@ -63,8 +65,8 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
     box-shadow: var(--shadow-sm);
     overflow: hidden;
     isolation: isolate;
+    transform-style: preserve-3d;
     transition:
-      transform var(--base) var(--ease),
       box-shadow var(--base) var(--ease),
       border-color var(--base) var(--ease),
       background var(--base) var(--ease);
@@ -84,20 +86,19 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
     z-index: 0;
     transition: opacity var(--base) var(--ease);
   }
-  .tile > :not(.tile__arrow) { position: relative; z-index: 1; }
+  .tile > :not(.tile__text) { position: relative; z-index: 1; }
   .tile__arrow { z-index: 1; }
   .tile:hover {
-    transform: translateY(-3px);
     border-color: rgba(162, 198, 212, 0.3);
     box-shadow: var(--shadow-md);
   }
   .tile:hover::before { opacity: 1; }
-  .tile:active { transform: translateY(-1px); }
 
   .tile__icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 13px;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 10px;
     display: grid;
     place-items: center;
     background: var(--surface-alt);
@@ -105,28 +106,35 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
   }
 
   .tile__text {
+    position: absolute;
+    left: 52px;
+    right: 52px;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    padding-right: 32px;
+    gap: 1px;
+    text-align: center;
+    z-index: 1;
+    pointer-events: none;
   }
   .tile__label {
     font-weight: 600;
-    font-size: 19px;
+    font-size: 16px;
     line-height: 1.25;
     letter-spacing: -0.02em;
   }
   .tile__sub {
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: 13px;
+    line-height: 1.3;
     color: var(--muted);
     letter-spacing: -0.005em;
   }
 
   .tile__arrow {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
+    position: static;
+    flex-shrink: 0;
+    margin-left: auto;
     color: var(--faint);
     transition: color var(--fast) var(--ease), transform var(--base) var(--ease);
   }
@@ -156,12 +164,14 @@ const { label, sub, href, icon, kind, event, external, copy } = Astro.props;
   .tile--primary:hover .tile__arrow { color: var(--color-white); }
 
   /* --- copiar --- */
+  .tile-wrap:has(.tile__copy) .tile { padding-right: 48px; }
   .tile__copy {
     position: absolute;
-    right: 14px;
-    top: 14px;
-    width: 40px;
-    height: 40px;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
     display: grid;
     place-items: center;
     border: 0;

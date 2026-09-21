@@ -3,12 +3,16 @@ import { Icon } from 'astro-icon/components';
 import { profile } from '../data/profile';
 import { links } from '../data/links';
 
-/** Barra de navegación estilo apple.com en modo oscuro: negra translúcida, aparece al pasar el hero. */
+interface Props {
+  homeHref?: string;
+  pinned?: boolean;
+}
+const { homeHref = '#inicio', pinned = false } = Astro.props;
 ---
 
-<header class="sh" id="sticky-header" aria-label="Accesos rápidos">
+<header class:list={['sh', pinned && 'is-visible']} id="sticky-header" aria-label="Accesos rápidos" data-pinned={pinned ? 'true' : undefined}>
   <div class="container sh__inner">
-    <a class="sh__brand" href="#inicio">{profile.name}</a>
+    <a class="sh__brand" href={homeHref}>{profile.name}</a>
     <nav class="sh__links" aria-label="Redes y contacto">
       {
         links.map((l) => (

@@ -1,0 +1,100 @@
+---
+import { profile } from '../data/profile';
+
+interface Props {
+  compact?: boolean;
+  featured?: boolean;
+  /** Solo el sello, sin el listado de credenciales. */
+  badgeOnly?: boolean;
+}
+const { compact = false, featured = false, badgeOnly = false } = Astro.props;
+---
+
+<div class:list={['marca', compact && 'marca--compact', featured && 'marca--featured']}>
+  <img
+    class="marca__badge"
+    src={profile.tango.badge}
+    width="512"
+    height="512"
+    alt="Partner Elite de Tango Software"
+  />
+  {
+    !badgeOnly && (
+      <ul class="marca__list" role="list">
+        {profile.marks.map((m) => (
+          <li>
+            <strong>{m.title}</strong>
+            <span>{m.text}</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</div>
+
+<style>
+  .marca {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: left;
+  }
+  .marca__badge {
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.55));
+  }
+  .marca__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+  .marca__list strong {
+    display: block;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.015em;
+    color: var(--text);
+  }
+  .marca__list span {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+  .marca--compact .marca__badge {
+    width: 64px;
+    height: 64px;
+  }
+  .marca--compact .marca__list {
+    gap: 8px;
+  }
+  .marca--compact .marca__list strong { font-size: 14px; }
+  .marca--compact .marca__list span { font-size: 12px; }
+
+  .marca--featured {
+    flex-direction: column;
+    text-align: center;
+    gap: 22px;
+  }
+  .marca--featured .marca__badge {
+    width: 132px;
+    height: 132px;
+  }
+  .marca--featured .marca__list { gap: 14px; }
+  .marca--featured .marca__list strong { font-size: 17px; }
+  .marca--featured .marca__list span { font-size: 14px; }
+
+  @media (max-width: 480px) {
+    .marca {
+      flex-direction: column;
+      text-align: center;
+      gap: 14px;
+    }
+  }
+</style>

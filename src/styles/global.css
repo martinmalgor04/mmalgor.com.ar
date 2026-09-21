@@ -215,6 +215,10 @@ a { color: inherit; }
   transition: none;
 }
 
+.js.has-gsap [data-pin-reveal] {
+  opacity: 0;
+}
+
 /* ------------------------------ motion reducida ------------------------------ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -224,4 +228,5 @@ a { color: inherit; }
     transition: none !important;
   }
   .js [data-reveal] { opacity: 1; transform: none; }
+  .js [data-pin-reveal] { opacity: 1; transform: none; }
 }

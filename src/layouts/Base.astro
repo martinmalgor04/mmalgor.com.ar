@@ -7,9 +7,11 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title?: string;
   description?: string;
+  /** minimal: sin header sticky. Para el linktree de /links. */
+  chrome?: 'full' | 'minimal';
 }
 
-const { title = profile.seo.title, description = profile.seo.description } = Astro.props;
+const { title = profile.seo.title, description = profile.seo.description, chrome = 'full' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL('/og.png', Astro.site);
 const umamiId = import.meta.env.PUBLIC_UMAMI_ID as string | undefined;
@@ -31,6 +33,7 @@ const jsonLd = {
     familyName: profile.familyName,
     jobTitle: profile.jobTitle,
     description,
+    award: profile.tango.partner,
     url: String(Astro.site),
     email: profile.email,
     telephone: profile.whatsapp.tel,
@@ -57,7 +60,7 @@ const jsonLd = {
     },
     alumniOf: { '@type': 'CollegeOrUniversity', name: profile.utn.name, url: profile.utn.url },
     knowsAbout: profile.knowsAbout,
-    sameAs: [profile.linkedin, profile.sys.url],
+    sameAs: [profile.linkedin, profile.instagram, profile.sys.url],
   },
 };
 ---
@@ -94,6 +97,7 @@ const jsonLd = {
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={profile.name} href="/rss.xml" />
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
@@ -107,7 +111,12 @@ const jsonLd = {
   <body>
     <a class="skip-link" href="#contenido">Ir al contenido</a>
 
-    <StickyHeader />
+    {chrome === 'full' && (
+      <StickyHeader
+        homeHref={Astro.url.pathname === '/' ? '#inicio' : '/'}
+        pinned={Astro.url.pathname !== '/'}
+      />
+    )}
 
     <main id="contenido">
       <slot />

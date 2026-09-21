@@ -1,0 +1,59 @@
+---
+import type { MeetupPhoto } from '../data/meetups';
+
+interface Props {
+  photos: MeetupPhoto[];
+}
+const { photos } = Astro.props;
+---
+
+{
+  photos.length > 0 && (
+    <div class="gal">
+      {
+        photos.map((photo, i) => (
+          <button class="shot" type="button" data-lightbox={photo.src} aria-label={photo.alt}>
+            <img src={photo.src} alt={photo.alt} loading={i < 2 ? 'eager' : 'lazy'} />
+          </button>
+        ))
+      }
+    </div>
+  )
+}
+
+<style>
+  .gal {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .shot {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--surface);
+    aspect-ratio: 4 / 3;
+    cursor: zoom-in;
+    display: block;
+    width: 100%;
+  }
+  .gal .shot:first-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 10;
+  }
+  .shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  @media (max-width: 520px) {
+    .gal { grid-template-columns: 1fr; }
+    .gal .shot:first-child,
+    .shot { aspect-ratio: 4 / 3; }
+  }
+</style>

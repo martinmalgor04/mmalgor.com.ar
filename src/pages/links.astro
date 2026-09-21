@@ -1,0 +1,100 @@
+---
+import { Icon } from 'astro-icon/components';
+import Base from '../layouts/Base.astro';
+import Avatar from '../components/Avatar.astro';
+import LinkTile from '../components/LinkTile.astro';
+import BrandMarks from '../components/BrandMarks.astro';
+import { profile } from '../data/profile';
+import { links } from '../data/links';
+---
+
+<Base
+  chrome="minimal"
+  title={`Links — ${profile.name}`}
+  description={`${profile.name}. Partner Elite de Tango. WhatsApp, LinkedIn y email.`}
+>
+  <section class="lt" id="inicio">
+    <div class="container lt__inner">
+      <a class="lt__back" href="/" data-umami-event="click-links-home">
+        <Icon name="lucide:arrow-left" size={16} />
+        Sitio
+      </a>
+
+      <div class="lt__avatar" data-rise>
+        <Avatar initials={profile.initials} alt={`${profile.name}, ${profile.role}`} src="/martin-malgor.jpg" />
+      </div>
+      <h1 class="lt__name" data-rise>{profile.name}</h1>
+      <p class="lt__tag" data-rise>{profile.tagline}</p>
+      <div class="lt__marca" data-rise>
+        <BrandMarks compact />
+      </div>
+
+      <div class="lt__tiles" data-rise>
+        {links.map((l) => <LinkTile {...l} />)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lt {
+    position: relative;
+    padding-top: 56px;
+    padding-bottom: 80px;
+    background: var(--color-black);
+    overflow: hidden;
+    min-height: 100svh;
+  }
+  .lt__inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .lt__inner > :nth-child(2) { --i: 1; }
+  .lt__inner > :nth-child(3) { --i: 2; }
+  .lt__inner > :nth-child(4) { --i: 3; }
+  .lt__inner > :nth-child(5) { --i: 4; }
+  .lt__inner > :nth-child(6) { --i: 5; }
+
+  .lt__back {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 36px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .lt__back:hover { color: var(--text); }
+
+  .lt__avatar { margin-bottom: 18px; }
+  .lt__name {
+    font-weight: 700;
+    font-size: clamp(36px, 7vw, 56px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .lt__tag {
+    margin-top: 12px;
+    font-size: 17px;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--muted);
+    max-width: 24ch;
+  }
+  .lt__marca {
+    margin-top: 22px;
+  }
+  .lt__tiles {
+    width: 100%;
+    max-width: 560px;
+    margin-top: 32px;
+    display: grid;
+    gap: 10px;
+  }
+</style>

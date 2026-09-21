@@ -24,7 +24,7 @@ if (reduced) {
 const hero = document.getElementById('inicio');
 const header = document.getElementById('sticky-header');
 
-if (hero && header) {
+if (hero && header && header.dataset.pinned !== 'true') {
   let ticking = false;
   const update = () => {
     header.classList.toggle('is-visible', window.scrollY > hero.offsetHeight - 160);

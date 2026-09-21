@@ -9,7 +9,7 @@ const { items } = Astro.props;
   {
     items.map((s) => (
       <li class="stat">
-        <span class="stat__value">{s.value}</span>
+        <span class="stat__value" data-count={s.value}>{s.value}</span>
         <span class="stat__label">{s.label}</span>
       </li>
     ))
@@ -43,6 +43,7 @@ const { items } = Astro.props;
     color: var(--text);
     text-shadow: 0 0 26px rgba(33, 150, 243, 0.35);
     font-variant-numeric: tabular-nums;
+    min-width: 5.5ch;
   }
   .stat__label {
     font-size: 13px;

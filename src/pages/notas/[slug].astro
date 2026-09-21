@@ -1,0 +1,71 @@
+---
+import { Icon } from 'astro-icon/components';
+import Base from '../../layouts/Base.astro';
+import { noteBySlug } from '../../data/notes';
+
+export function getStaticPaths() {
+  return Object.keys(noteBySlug).map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const note = noteBySlug[slug ?? ''];
+if (!note) throw new Error(`Nota no encontrada: ${slug}`);
+---
+
+<Base title={`${note.title} — Martín Malgor`} description={note.description}>
+  <article class="page">
+    <div class="container page__inner">
+      <a class="page__back" href="/" data-umami-event="click-nota-home">
+        <Icon name="lucide:arrow-left" size={16} />
+        Sitio
+      </a>
+      <p class="page__kicker">
+        Nota · <time datetime={note.date}>{note.dateLabel}</time>
+      </p>
+      <h1 class="page__title">{note.title}</h1>
+      <div class="page__body">
+        {note.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .page {
+    padding-top: 88px;
+    padding-bottom: clamp(72px, 10vw, 128px);
+  }
+  .page__inner { max-width: 720px; }
+  .page__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 40px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .page__back:hover { color: var(--text); }
+  .page__kicker {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-electric);
+    margin-bottom: 12px;
+  }
+  .page__title {
+    font-weight: 700;
+    font-size: clamp(36px, 6vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+  }
+  .page__body { display: grid; gap: 20px; }
+  .page__body p {
+    font-size: clamp(18px, 2.2vw, 21px);
+    line-height: 1.5;
+    letter-spacing: -0.015em;
+    color: var(--muted);
+    max-width: 46ch;
+  }
+</style>

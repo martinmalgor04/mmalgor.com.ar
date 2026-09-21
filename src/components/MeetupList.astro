@@ -1,0 +1,120 @@
+---
+import MeetupGallery from './MeetupGallery.astro';
+import { meetups } from '../data/meetups';
+---
+
+<div class="meets">
+  {
+    meetups.map((m) => (
+      <article class="meet">
+        <header class="meet__head">
+          {
+            m.logo && (
+              <img class="meet__logo" src={m.logo.src} alt={m.logo.alt} width="1024" height="125" />
+            )
+          }
+          <p class="meet__meta">
+            <time datetime={m.date}>{m.dateLabel}</time>
+            <span aria-hidden="true"> · </span>
+            {m.place}
+          </p>
+          <h3 class="meet__title">{m.title}</h3>
+          <p class="meet__text">{m.text}</p>
+          {m.credit && <p class="meet__credit">{m.credit}</p>}
+        </header>
+        {m.photos.length > 0 && <MeetupGallery photos={m.photos} />}
+      </article>
+    ))
+  }
+</div>
+
+<dialog class="lb" aria-label="Foto">
+  <img alt="" />
+  <form method="dialog">
+    <button type="submit" aria-label="Cerrar">Cerrar</button>
+  </form>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.lb');
+  const img = dialog?.querySelector('img');
+  if (dialog && img) {
+    document.querySelectorAll<HTMLButtonElement>('[data-lightbox]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const src = btn.dataset.lightbox;
+        if (!src) return;
+        img.src = src;
+        img.alt = btn.getAttribute('aria-label') ?? '';
+        dialog.showModal();
+      });
+    });
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+</script>
+
+<style>
+  .meets {
+    display: grid;
+    gap: clamp(56px, 8vw, 88px);
+  }
+  .meet {
+    display: grid;
+    gap: 22px;
+  }
+  .meet__head {
+    display: grid;
+    gap: 10px;
+    max-width: 62ch;
+  }
+  .meet__logo {
+    width: min(220px, 70%);
+    height: auto;
+    margin-bottom: 6px;
+  }
+  .meet__meta {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-electric);
+  }
+  .meet__title {
+    font-weight: 700;
+    font-size: clamp(26px, 3.6vw, 34px);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+  .meet__text {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .meet__credit {
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--faint);
+  }
+
+  .lb {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    max-width: min(920px, 94vw);
+  }
+  .lb::backdrop { background: rgba(0, 0, 0, 0.82); }
+  .lb img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+  }
+  .lb form { display: flex; justify-content: center; margin-top: 12px; }
+  .lb button {
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-size: 15px;
+    cursor: pointer;
+  }
+</style>
