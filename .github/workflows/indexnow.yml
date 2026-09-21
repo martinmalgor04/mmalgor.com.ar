@@ -16,5 +16,6 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: 24
+          package-manager-cache: false
       - name: Esperar el deploy de Vercel y leer el sitemap vivo
         run: sleep 90 && node scripts/indexnow.mjs
