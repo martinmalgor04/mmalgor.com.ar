@@ -68,7 +68,7 @@ export const faqs = [
   },
   {
     q: '¿Cómo contactar a Martín Malgor?',
-    a: `Por WhatsApp al ${profile.whatsapp.display}, por email a ${profile.email} o por LinkedIn. El sitio oficial es mmalgor.com.ar.`,
+    a: `Para una charla de 30 minutos: ${profile.calendly.url}. También por WhatsApp al ${profile.whatsapp.display}, por email a ${profile.email} o por LinkedIn. El sitio oficial es mmalgor.com.ar.`,
   },
   {
     q: '¿Qué es Servicios y Sistemas?',
@@ -343,7 +343,7 @@ También se busca como ${profile.alternateName.join(', ')}.
 - Empresa: ${profile.sys.legal} (${profile.sys.name})
 - Lugar: ${profile.location}
 - Estudios: Ingeniería en Sistemas, ${profile.utn.yearLabel}, ${profile.utn.name}
-- Contacto: ${profile.email} · WhatsApp ${profile.whatsapp.display}
+- Contacto: ${profile.calendly.url} · ${profile.email} · WhatsApp ${profile.whatsapp.display}
 - Sitio: ${SITE}
 
 ## ${profile.statsKicker}
@@ -384,6 +384,7 @@ ${sys.addressLine}
 
 ${contacto.text}
 
+- Agendar 30 min: ${profile.calendly.url}
 - WhatsApp: ${profile.whatsapp.display}
 - Email: ${profile.email}
 - LinkedIn: ${profile.linkedin}

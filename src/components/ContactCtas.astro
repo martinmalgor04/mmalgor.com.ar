@@ -8,12 +8,21 @@ interface Props {
   nowLink?: boolean;
   vcard?: boolean;
   center?: boolean;
+  /** En Hablemos, Calendly es el botón principal y WhatsApp queda secundario. */
+  schedule?: boolean;
 }
-const { waEvent, liEvent, nowLink = false, vcard = false, center = false } = Astro.props;
+const { waEvent, liEvent, nowLink = false, vcard = false, center = false, schedule = false } = Astro.props;
 ---
 
 <div class:list={['ccta', center && 'ccta--center']}>
-  <a class="cta cta--primary" href={whatsappHref} target="_blank" rel="noopener" data-umami-event={waEvent}>
+  {schedule && (
+    <a class="cta cta--primary" href={profile.calendly.url} target="_blank" rel="noopener" data-umami-event="click-calendly-contacto">
+      <Icon name="lucide:calendar" size={18} aria-hidden="true" />
+      {profile.calendly.label}
+      <span class="sr-only">(se abre en otra pestaña)</span>
+    </a>
+  )}
+  <a class:list={['cta', schedule ? 'cta--secondary' : 'cta--primary']} href={whatsappHref} target="_blank" rel="noopener" data-umami-event={waEvent}>
     <Icon name="tabler:brand-whatsapp" size={18} aria-hidden="true" />
     Escribime por WhatsApp
     <span class="sr-only">(se abre en otra pestaña)</span>

@@ -106,7 +106,7 @@ export const sys = {
 
 export const contacto = {
   title: 'Hablemos.',
-  text: 'Si dirigís una PYME del NEA y necesitás Tango, una app a medida o automatizar la operación, escribime.',
+  text: 'Charla de 30 minutos para ver cómo está hoy tu operación: sistemas, procesos y dónde se traba el día a día. Tango, otro ERP, o si querés que nos conozcamos.',
   recruiter: '¿Reclutador o de la comunidad? Escribime por LinkedIn.',
 };
 

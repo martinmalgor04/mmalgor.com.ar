@@ -66,6 +66,10 @@ export const profile = {
   },
   linkedin: 'https://www.linkedin.com/in/martin-malgor-6b3824186/',
   vcard: '/martin-malgor.vcf',
+  calendly: {
+    url: 'https://calendly.com/martinmmalgor/30min',
+    label: 'Agendar 30 min',
+  },
 
   sys: {
     name: 'Servicios y Sistemas',
