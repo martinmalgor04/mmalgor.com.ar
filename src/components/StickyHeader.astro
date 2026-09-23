@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { profile, whatsappHref } from '../data/profile';
+import { profile } from '../data/profile';
 
 interface Props {
   homeHref?: string;
@@ -27,14 +27,15 @@ const sections = [
       ))}
     </nav>
     <a
-      class="sh__wa"
-      href={whatsappHref}
+      class="sh__cta"
+      href={profile.calendly.url}
       target="_blank"
       rel="noopener"
-      data-umami-event="click-whatsapp-header"
+      data-umami-event="click-calendly-header"
+      aria-label={`${profile.calendly.label} (se abre en otra pestaña)`}
     >
-      <Icon name="tabler:brand-whatsapp" size={18} aria-hidden="true" />
-      <span class="sh__wa-label">WhatsApp</span>
+      <Icon name="lucide:calendar" size={18} aria-hidden="true" />
+      <span class="sh__cta-label">{profile.calendly.label}</span>
       <span class="sr-only">(se abre en otra pestaña)</span>
     </a>
   </div>
@@ -98,7 +99,7 @@ const sections = [
     transition: color var(--fast) var(--ease);
   }
   .sh__nav a:hover { color: var(--text); }
-  .sh__wa {
+  .sh__cta {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -111,17 +112,10 @@ const sections = [
     font-size: 14px;
     font-weight: 600;
     flex-shrink: 0;
+    white-space: nowrap;
   }
 
   @media (max-width: 899px) {
     .sh__nav { display: none; }
-    .sh__wa-label { display: none; }
-    .sh__wa {
-      width: 44px;
-      height: 44px;
-      min-height: 44px;
-      padding: 0;
-      justify-content: center;
-    }
   }
 </style>

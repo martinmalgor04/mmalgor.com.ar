@@ -28,7 +28,12 @@ import { feed } from '../data/feed';
       </p>
 
       <div class="hero__actions" data-rise>
-        <a class="cta cta--primary" href={whatsappHref} target="_blank" rel="noopener" data-umami-event="click-whatsapp-home">
+        <a class="cta cta--primary" href={profile.calendly.url} target="_blank" rel="noopener" data-umami-event="click-calendly-home">
+          <Icon name="lucide:calendar" size={18} aria-hidden="true" />
+          {profile.calendly.label}
+          <span class="sr-only">(se abre en otra pestaña)</span>
+        </a>
+        <a class="cta cta--secondary" href={whatsappHref} target="_blank" rel="noopener" data-umami-event="click-whatsapp-home">
           <Icon name="tabler:brand-whatsapp" size={18} aria-hidden="true" />
           Escribime por WhatsApp
           <span class="sr-only">(se abre en otra pestaña)</span>
